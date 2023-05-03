@@ -1,11 +1,14 @@
 package sistema.spger.utils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import jdk.nashorn.internal.objects.NativeDebug;
 import sistema.spger.SistemaSPGER;
 
 
@@ -31,5 +34,20 @@ public class Utilidades {
             System.err.println("ERROR: " + ex.getMessage());
         }
         return escena;
+    }
+    
+    public static String encriptarContraseñaSHA512(String contrasenia) throws UnsupportedEncodingException {
+        String contrasenaEncriptada = null;
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-512");
+            digest.reset();
+            digest.update(contrasenia.getBytes("utf8"));
+            contrasenaEncriptada = String.format("%0128x", new BigInteger(1, digest.digest()));
+        } catch (NoSuchAlgorithmException nsaException) {
+            //Logger.getLogger(SHA512.class.getName()).log(Level.SEVERE, null, nsaException);
+        } catch (UnsupportedEncodingException ueException) {
+            //Logger.getLogger(SHA512.class.getName()).log(Level.SEVERE, null, ueException);
+        }
+        return contrasenaEncriptada;
     }
 }
