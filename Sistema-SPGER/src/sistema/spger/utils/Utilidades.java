@@ -5,16 +5,21 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import sistema.spger.SistemaSPGER;
+import sistema.spger.modelo.POJO.POJUsuario;
 
 
 public class Utilidades {
     public static void mostrarDialogoSimple(String titulo, String mensaje,
-            Alert.AlertType tipo) {
+        Alert.AlertType tipo) {
         Alert alertaSimple = new Alert(tipo);
         alertaSimple.setTitle(titulo);
         alertaSimple.setContentText(mensaje);
@@ -22,7 +27,7 @@ public class Utilidades {
         alertaSimple.showAndWait();
     }
     
-    public static Scene inicializarEscena(String ruta) {
+    public static Scene inicializarEscena(String ruta) throws IOException {
         Scene escena = null;
         try
         {
@@ -49,5 +54,12 @@ public class Utilidades {
             //Logger.getLogger(SHA512.class.getName()).log(Level.SEVERE, null, ueException);
         }
         return contrasenaEncriptada;
+    }
+    
+    public static void recibirRolesDeUsuario(List<POJUsuario> listaRolesDeUsuario){
+        for (int i=0; i<listaRolesDeUsuario.size(); i++){
+            System.out.println(listaRolesDeUsuario.get(i).getRol());
+        }
+        
     }
 }

@@ -2,21 +2,13 @@ package sistema.spger.modelo.POJO;
 
 public class POJUsuario {
     private int idUsuario;
-    private String nombreUsuario;
+    private String correo;
     private String contrasenia;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private String correo;
+    private String rol;
     private int codigoRespuesta;
-
-    public int getCodigoRespuesta() {
-        return codigoRespuesta;
-    }
-
-    public void setCodigoRespuesta(int codigoRespuesta) {
-        this.codigoRespuesta = codigoRespuesta;
-    }
 
     public int getIdUsuario() {
         return idUsuario;
@@ -26,12 +18,12 @@ public class POJUsuario {
         this.idUsuario = idUsuario;
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public String getContrasenia() {
@@ -66,13 +58,22 @@ public class POJUsuario {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getRol() {
+        return rol;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setRol(String rol) {
+        this.rol = rol;
     }
     
+    public int getCodigoRespuesta() {
+        return codigoRespuesta;
+    }
+
+    public void setCodigoRespuesta(int codigoRespuesta) {
+        this.codigoRespuesta = codigoRespuesta;
+    }
+    
+
     
 }

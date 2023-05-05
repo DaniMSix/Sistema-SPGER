@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="750.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistema.spger.controladores.FXMLPantallaPrincipalController">
+   <children>
+      <MenuBar prefHeight="39.0" prefWidth="750.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Cambiar de vista">
+            <items>
+              <MenuItem fx:id="menuIAdministrador" mnemonicParsing="false" text="Administrador" />
+                  <MenuItem fx:id="menuIProfesor" mnemonicParsing="false" text="Profesor" />
+                  <MenuItem mnemonicParsing="false" text="Director" />
+                  <MenuItem mnemonicParsing="false" text="Responsable CA" />
+                  <MenuItem mnemonicParsing="false" text="Estudiante" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
