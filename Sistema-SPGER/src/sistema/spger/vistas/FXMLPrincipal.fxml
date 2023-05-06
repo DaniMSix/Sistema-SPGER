@@ -6,17 +6,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="572.0" prefWidth="817.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.spger.controladores.FXMLPrincipalController">
+<AnchorPane id="AnchorPane" fx:id="anchoPnPrincipal" prefHeight="572.0" prefWidth="817.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.spger.controladores.FXMLPrincipalController">
    <children>
-      <MenuBar fx:id="menuBOpciones" prefHeight="39.0" prefWidth="796.0">
+      <MenuBar fx:id="menuBOpciones" prefHeight="39.0" prefWidth="817.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Cambiar de rol">
+          <Menu mnemonicParsing="false" text="Cambiar de vista">
             <items>
-                  <MenuItem fx:id="mItemAdministrador" mnemonicParsing="false" text="Administrador" />
-                  <MenuItem fx:id="mItemProfesor" mnemonicParsing="false" text="Profesor" />
-                  <MenuItem fx:id="mItemDirector" mnemonicParsing="false" text="Director" />
-                  <MenuItem fx:id="mItemResponsableCA" mnemonicParsing="false" text="Responsable CA" />
-                  <MenuItem fx:id="mItemEstudiante" mnemonicParsing="false" text="Estudiante" />
+                  <MenuItem fx:id="mItemAdministrador" mnemonicParsing="false" onAction="#clicMItemAdministrador" text="Administrador" />
+                  <MenuItem fx:id="mItemProfesor" mnemonicParsing="false" onAction="#clicMItemProfesor" text="Profesor" />
+                  <MenuItem fx:id="mItemDirector" mnemonicParsing="false" onAction="#clicMItemDirector" text="Director" />
+                  <MenuItem fx:id="mItemResponsableCA" mnemonicParsing="false" onAction="#clicMItemResponsableCA" text="Responsable CA" />
+                  <MenuItem fx:id="mItemEstudiante" mnemonicParsing="false" onAction="#clicMItemEstudiante" text="Estudiante" />
                 
             </items>
           </Menu>

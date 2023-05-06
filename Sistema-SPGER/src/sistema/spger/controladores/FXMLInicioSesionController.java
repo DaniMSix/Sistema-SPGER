@@ -14,14 +14,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sistema.spger.DAO.DAOInicioSesion;
 import sistema.spger.SistemaSPGER;
-import sistema.spger.modelo.POJO.POJRol;
 import sistema.spger.modelo.POJO.POJUsuario;
 import sistema.spger.utils.Utilidades;
 
@@ -53,23 +50,17 @@ public class FXMLInicioSesionController implements Initializable {
         List<POJUsuario> listaRoles = new ArrayList<>();
         int idUsuario = usuario.getIdUsuario();
         listaRoles = usuarioDao.obtenerRoles(idUsuario);
-        
-        
-        /*for (int i=0; i<listaRoles.size(); i++){
-            System.out.println(listaRoles.get(i).getRol());
-        }*/
-        
         if(correo.isEmpty() && contrasenia.isEmpty() ){
             Utilidades.mostrarDialogoSimple("Campos vacíos", "Hay campos"
-                    + "vacíos coloque la información correspondiente en todos", Alert.AlertType.ERROR);
+                    + " vacíos coloque la información correspondiente en todos", Alert.AlertType.ERROR);
         } else{
-            mostrarPantallaPrincipal(listaRoles);
+            mostrarPantallaPrincipal(listaRoles, idUsuario);
         }
     }
     
    
     
-    public void mostrarPantallaPrincipal(List<POJUsuario> listaRolesDeUsuario) throws IOException{
+    public void mostrarPantallaPrincipal(List<POJUsuario> listaRolesDeUsuario, int idUsuario) throws IOException{
        
         Stage escenarioBase = (Stage) tfCorreo.getScene().getWindow();
         Scene escena = null;
@@ -77,7 +68,8 @@ public class FXMLInicioSesionController implements Initializable {
         try {
             Parent vista = loader.load();
             FXMLPrincipalController pantallaPrincipal = loader.getController();
-            pantallaPrincipal.prepararRolesUsuario(listaRolesDeUsuario);
+            System.out.println("Pantalla inicioSesión" + idUsuario);
+            pantallaPrincipal.prepararRolesUsuario(listaRolesDeUsuario, idUsuario);
             escena = new Scene(vista);
             escenarioBase.setScene(escena);
             escenarioBase.setTitle("Home");

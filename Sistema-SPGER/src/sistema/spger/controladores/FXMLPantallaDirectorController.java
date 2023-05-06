@@ -14,14 +14,17 @@ import javafx.fxml.Initializable;
  *
  * @author Dani
  */
-public class FXMLPantallaPrincipalController implements Initializable {
+public class FXMLPantallaDirectorController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    int usuarioProfesor;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }  
+    
+    public void prepararRolesUsuario(int idUsuario){
+        usuarioProfesor = idUsuario;
+    }
     
 }
