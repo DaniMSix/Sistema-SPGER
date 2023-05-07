@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
@@ -24,7 +25,7 @@ import sistema.spger.utils.Utilidades;
  *
  * @author Dani
  */
-public class FXMLPrincipalController implements Initializable {
+public class FXMLPantallaPrincipalController implements Initializable {
 
     @FXML
     private MenuItem mItemProfesor;
@@ -48,9 +49,11 @@ public class FXMLPrincipalController implements Initializable {
     
     List<POJUsuario> listaRoles;
     
-    int idUsuarioActual;
+    POJUsuario usuarioActivo;
     @FXML
     private AnchorPane anchoPnPrincipal;
+    @FXML
+    private Label lbNombreUsuario;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,10 +83,11 @@ public class FXMLPrincipalController implements Initializable {
         } 
     }
     
-    public void prepararRolesUsuario(List<POJUsuario> listaRolesDeUsuario, int idUsuario){
-        idUsuarioActual = idUsuario;
+    public void prepararRolesUsuario(List<POJUsuario> listaRolesDeUsuario, POJUsuario usuario){
+        usuarioActivo = usuario;
         listaRoles = listaRolesDeUsuario;
         mostrarRoles(listaRoles);
+        lbNombreUsuario.setText(usuarioActivo.getNombre());
     }
     
     public void desactivarItems(){
@@ -114,7 +118,7 @@ public class FXMLPrincipalController implements Initializable {
             FXMLLoader loader = new FXMLLoader(SistemaSPGER.class.getResource("vistas/FXMLPantallaDirector.fxml"));
             Parent vista = loader.load();
             FXMLPantallaDirectorController pantallaDirector = loader.getController();
-            pantallaDirector.prepararRolesUsuario(idUsuarioActual);
+            //pantallaDirector.prepararRolesUsuario(usuarioActivo);
             Scene escena = new Scene(vista);
             Stage escenarioBase = new Stage();
             escenarioBase.initModality(Modality.APPLICATION_MODAL);
@@ -133,7 +137,7 @@ public class FXMLPrincipalController implements Initializable {
             FXMLLoader loader = new FXMLLoader(SistemaSPGER.class.getResource("vistas/FXMLResponsableCA.fxml"));
             Parent vista = loader.load();
             FXMLPantallaResponsableCAController pantallaResponsableCA = loader.getController();
-            pantallaResponsableCA.prepararRolesUsuario(idUsuarioActual);
+            //pantallaResponsableCA.prepararRolesUsuario(idUsuarioActual);
             Scene escena = new Scene(vista);
             Stage escenarioBase = new Stage();
             escenarioBase.initModality(Modality.APPLICATION_MODAL);
@@ -152,7 +156,7 @@ public class FXMLPrincipalController implements Initializable {
             FXMLLoader loader = new FXMLLoader(SistemaSPGER.class.getResource("vistas/FXMLResponsableCA.fxml"));
             Parent vista = loader.load();
             FXMLPantallaEstudianteController pantallaEstudiante = loader.getController();
-            pantallaEstudiante.prepararRolesUsuario(idUsuarioActual);
+            //pantallaEstudiante.prepararRolesUsuario(idUsuarioActual);
             Scene escena = new Scene(vista);
             Stage escenarioBase = new Stage();
             escenarioBase.initModality(Modality.APPLICATION_MODAL);
@@ -171,7 +175,7 @@ public class FXMLPrincipalController implements Initializable {
             FXMLLoader loader = new FXMLLoader(SistemaSPGER.class.getResource("vistas/FXMLPantallaProfesor.fxml"));
             Parent vista = loader.load();
             FXMLPantallaProfesorController pantallaProfesor = loader.getController();
-            pantallaProfesor.prepararRolesUsuario(idUsuarioActual);
+            //pantallaProfesor.prepararRolesUsuario(idUsuarioActual);
             Scene escena = new Scene(vista);
             Stage escenarioBase = new Stage();
             escenarioBase.initModality(Modality.APPLICATION_MODAL);
@@ -186,6 +190,7 @@ public class FXMLPrincipalController implements Initializable {
 }
 
     
+// <a href="https://storyset.com/online">Online illustrations by Storyset</a>
 
 //mouse clic
 //stage escenario
