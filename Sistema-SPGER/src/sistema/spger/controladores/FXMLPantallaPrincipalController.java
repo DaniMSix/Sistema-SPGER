@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sistema.spger.SistemaSPGER;
+import sistema.spger.modelo.POJO.POJRol;
 import sistema.spger.modelo.POJO.POJUsuario;
 import sistema.spger.utils.Utilidades;
 
@@ -45,30 +46,32 @@ public class FXMLPantallaPrincipalController implements Initializable {
     @FXML
     private MenuBar menuBOpciones;
     
-    POJUsuario usuarioActual;
+    List<POJRol> listaRoles;
     
-    List<POJUsuario> listaRoles;
-    
-    POJUsuario usuarioActivo;
+    POJUsuario usuarioLogueado = null;
     @FXML
     private AnchorPane anchoPnPrincipal;
     @FXML
     private Label lbNombreUsuario;
+    
+    private POJUsuario usuarioActual;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        desactivarItems();
     }   
     
-    public void mostrarRoles(List<POJUsuario> listaRoles){
-        for (int i=0; i<listaRoles.size(); i++){
-            String opcionRol = listaRoles.get(i).getRol();
-            System.out.print(opcionRol+ "\n");
+    public void mostrarRoles(List<POJRol> listaRoles){
+        
+        
+        
+        for (int indice=0; indice<listaRoles.size(); indice++){
+            String opcionRol = listaRoles.get(indice).getDescripcion();
             switch(opcionRol){
                 case "Administrador":
                     mItemAdministrador.setVisible(true);
                     break;
-                case "profesor":
+                case "Profesor":
                     mItemProfesor.setVisible(true);
                     break;
                 case "Director de trabajo":
@@ -83,11 +86,14 @@ public class FXMLPantallaPrincipalController implements Initializable {
         } 
     }
     
-    public void prepararRolesUsuario(List<POJUsuario> listaRolesDeUsuario, POJUsuario usuario){
-        usuarioActivo = usuario;
+    public void prepararRolesUsuario(List<POJRol> listaRolesDeUsuario, POJUsuario usuarioLogueado){
+        usuarioActual = usuarioLogueado;
         listaRoles = listaRolesDeUsuario;
+        
         mostrarRoles(listaRoles);
-        lbNombreUsuario.setText(usuarioActivo.getNombre());
+        lbNombreUsuario.setText(usuarioLogueado.getNombre());
+        
+        
     }
     
     public void desactivarItems(){
@@ -101,15 +107,21 @@ public class FXMLPantallaPrincipalController implements Initializable {
     
     @FXML
     private void clicMItemAdministrador(ActionEvent event) throws IOException {
-        Stage stageMenuTutor = new Stage();
-        FXMLLoader loader = new FXMLLoader();
-        Parent root = loader.load(getClass().getResource("vistas/FXMLAdministrador.fxml").openStream());
-        Scene scene = new Scene(root);
-        stageMenuTutor.setScene(scene);
-        stageMenuTutor.setTitle("Menu de administradores");
-        stageMenuTutor.alwaysOnTopProperty();
-        stageMenuTutor.initModality(Modality.APPLICATION_MODAL);
-        stageMenuTutor.show();
+        try {
+            FXMLLoader loader = new FXMLLoader(SistemaSPGER.class.getResource("vistas/FXMLPantallaAdministrador.fxml"));
+            Parent vista = loader.load();
+            FXMLPantallaAdministradorController administradorControler = loader.getController();
+            administradorControler.recibirInformaciónAdministrador(usuarioLogueado);
+            Scene escena = new Scene(vista);
+            Stage escenarioBase = new Stage();
+            escenarioBase.initModality(Modality.APPLICATION_MODAL);
+            escenarioBase.setAlwaysOnTop(true);
+            escenarioBase.setScene(escena);
+            escenarioBase.setTitle("SSPGER Administrador");
+            escenarioBase.showAndWait();
+        } catch (IOException ex) {
+            System.err.println("ERROR: " + ex.getMessage());
+        }
     }
         
     @FXML

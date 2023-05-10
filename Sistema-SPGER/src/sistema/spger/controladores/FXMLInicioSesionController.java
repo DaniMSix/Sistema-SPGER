@@ -7,33 +7,35 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sistema.spger.DAO.DAOInicioSesion;
 import sistema.spger.SistemaSPGER;
 import sistema.spger.modelo.POJO.POJUsuario;
+import sistema.spger.utils.Constantes;
 import sistema.spger.utils.Utilidades;
+import sistema.spger.modelo.POJO.POJRol;
 
 public class FXMLInicioSesionController implements Initializable {
 
     @FXML
     private TextField tfCorreo;
-    @FXML
-    private AnchorPane anchorPInicioSesion;
+    
     @FXML
     private PasswordField pfContrasenia;
     
-    POJUsuario usuarioActivo = null;
+    String EXPRESION_COMPROBAR_EMAIL = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
+        
     
     
     @Override
@@ -42,30 +44,72 @@ public class FXMLInicioSesionController implements Initializable {
     }    
 
     @FXML
-    private void clicIniciarSesion(ActionEvent event) throws SQLException, UnsupportedEncodingException, IOException {
-        validarCampos();
+    private void clicIniciarSesion(ActionEvent event) {
+        obtenerCamposIngresados();
     }
     
-    
-    private void validarCampos() throws SQLException, UnsupportedEncodingException, IOException{
+    private void obtenerCamposIngresados(){
         String correo = tfCorreo.getText();
-        String contrasenia = pfContrasenia.getText();      
-        DAOInicioSesion usuarioDao = new DAOInicioSesion();
-        POJUsuario usuario = usuarioDao.verificarSesionUsuario(correo, contrasenia);
-        List<POJUsuario> listaRoles = new ArrayList<>();
-        int idUsuario = usuario.getIdUsuario();
-        listaRoles = usuarioDao.obtenerRoles(idUsuario);
-        if(correo.isEmpty() && contrasenia.isEmpty() ){
-            Utilidades.mostrarDialogoSimple("Campos vacíos", "Hay campos"
-                    + " vacíos coloque la información correspondiente en todos", Alert.AlertType.ERROR);
-        } else{
-            mostrarPantallaPrincipal(listaRoles, usuarioActivo);
+        String contrasenia = pfContrasenia.getText();
+        validarCampos(correo, contrasenia);
+    }
+    
+    public void validarCampos(String correo, String contrasenia){
+        
+        boolean datosValidos = true;
+        
+        if((correo.isEmpty()) && (contrasenia.isEmpty()) ){
+            datosValidos = false;
+            Utilidades.mostrarDialogoSimple("Campos vacíos", "Por favor llene todos los campos "
+                    + "con la información necesaria", Alert.AlertType.ERROR);
+        }
+        
+        if(!(correo.matches(EXPRESION_COMPROBAR_EMAIL))){
+            datosValidos = false;
+            Utilidades.mostrarDialogoSimple("Correo inválido", "Por favor ingrese un "
+                    + "correo válido", Alert.AlertType.ERROR);
+        } 
+        if(datosValidos){
+            validarCredencialesUsuario(correo, contrasenia);
+        }
+        
+    }
+    
+    public void validarCredencialesUsuario(String correo, String contrasenia) {
+        List<POJRol> listaRoles = new ArrayList<>();
+        POJUsuario usuarioRespuesta = DAOInicioSesion.verificarSesionUsuario(correo, contrasenia);
+        
+        switch(usuarioRespuesta.getCodigoRespuesta()){
+            
+            case Constantes.ERROR_CONEXION:
+                Utilidades.mostrarDialogoSimple("Error de conexión", 
+                        "Por el momento no hay conexión, intentelo más tarde", 
+                        Alert.AlertType.ERROR);
+                break;
+            case Constantes.ERROR_CONSULTA:
+                Utilidades.mostrarDialogoSimple("Error en la solicitud", 
+                        "Por el momento no se puede procesar la solicitud de verificación", 
+                        Alert.AlertType.ERROR);
+                break;
+            case Constantes.OPERACION_EXITOSA:
+                if (usuarioRespuesta.getIdUsuario()>0){
+                    Utilidades.mostrarDialogoSimple("Bienvenido(a)", 
+                        "Bienvenido(a) "+usuarioRespuesta.toString()+" al sistema...", 
+                        Alert.AlertType.INFORMATION);
+                    int idUsuario = usuarioRespuesta.getIdUsuario();
+                    listaRoles = DAOInicioSesion.obtenerRoles(idUsuario);
+                    mostrarPantallaPrincipal(listaRoles, usuarioRespuesta);
+                } else {
+                    Utilidades.mostrarDialogoSimple("Credenciales incorrectas", 
+                            "El usuario y/o contraseña no son correctos, por favor verifica la información", 
+                            Alert.AlertType.WARNING);
+                }
         }
     }
     
    
     
-    public void mostrarPantallaPrincipal(List<POJUsuario> listaRolesDeUsuario, POJUsuario usuarioActivo) throws IOException{
+    public void mostrarPantallaPrincipal(List<POJRol> listaRoles, POJUsuario usuarioVerificado) {
        
         Stage escenarioBase = (Stage) tfCorreo.getScene().getWindow();
         Scene escena = null;
@@ -73,16 +117,15 @@ public class FXMLInicioSesionController implements Initializable {
         try {
             Parent vista = loader.load();
             FXMLPantallaPrincipalController pantallaPrincipal = loader.getController();
-            //pantallaPrincipal.prepararRolesUsuario(listaRolesDeUsuario, usuarioActivo);
+            pantallaPrincipal.prepararRolesUsuario(listaRoles, usuarioVerificado);
             escena = new Scene(vista);
             escenarioBase.setScene(escena);
-            
-            
             escenarioBase.setAlwaysOnTop(true);
             escenarioBase.show();
             escenarioBase.setTitle("SSPGER");
         } catch (IOException ex) {
-            System.err.println("ERROR: " + ex.getMessage());
+            Utilidades.mostrarDialogoSimple("Error al cargar", "Hubo un error al intentar cargar la ventana, "
+                    + "intentélo más tarde", Alert.AlertType.ERROR);
         }
     }
     

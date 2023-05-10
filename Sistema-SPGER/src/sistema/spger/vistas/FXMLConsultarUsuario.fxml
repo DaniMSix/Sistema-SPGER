@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="548.0" prefWidth="988.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistema.spger.controladores.FXMLConsultarUsuarioController">
+   <children>
+      <ImageView fitHeight="556.0" fitWidth="1005.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../utils/imagenes/Fondo-CU.png" />
+         </image>
+      </ImageView>
+      <TableView layoutX="51.0" layoutY="114.0" prefHeight="341.0" prefWidth="891.0">
+        <columns>
+          <TableColumn prefWidth="195.0" text="Rol" />
+          <TableColumn prefWidth="695.0" text="Nombre" />
+        </columns>
+      </TableView>
+      <TextField layoutX="32.0" layoutY="22.0" promptText="Buscar por rol" />
+      <TextField layoutX="291.0" layoutY="22.0" promptText="Buscar por nombre" />
+      <Button layoutX="650.0" layoutY="486.0" mnemonicParsing="false" text="Modificar" />
+      <Button layoutX="794.0" layoutY="486.0" mnemonicParsing="false" text="Añadir usuario" />
+   </children>
+</AnchorPane>

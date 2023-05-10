@@ -5,16 +5,12 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import sistema.spger.SistemaSPGER;
-import sistema.spger.controladores.FXMLPantallaPrincipalController;
 import sistema.spger.modelo.POJO.POJUsuario;
 
 
@@ -57,10 +53,5 @@ public class Utilidades {
         return contrasenaEncriptada;
     }
     
-    public static void recibirRolesDeUsuario(List<POJUsuario> listaRolesDeUsuario){
-        for (int i=0; i<listaRolesDeUsuario.size(); i++){
-            System.out.println(listaRolesDeUsuario.get(i).getRol());
-        }
-        
-    } 
+    
 }

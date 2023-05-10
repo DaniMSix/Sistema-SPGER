@@ -3,39 +3,50 @@ package sistema.spger.modelo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import sistema.spger.dbArchivos.DBAUsuarioBD;
 import sistema.spger.dbArchivos.DBAObtenerUsuario;
+import sistema.spger.utils.Utilidades;
 
 
 public class ModConexionBD {
     private Connection connection;
-    // jdbc:mysql://sistema-tutorias.mysql.database.azure.com:3306/sistematutoriasfei?useSSL=false
-    // String url="jdbc:mysql://prueba-construccion.mysql.database.azure.com:3306/{your_database}?useSSL=true"
     private final String url="jdbc:mysql://prueba-construccion.mysql.database.azure.com:3306/spger?useSSL=false";
     private DBAUsuarioBD usuarioBD;
 
-    public Connection getConnection() throws SQLException{
+    public Connection getConnection() {
         connect();
         
         return connection;
     }
 
-    private void connect() throws SQLException{
+    private void connect() {
         usuarioBD = DBAObtenerUsuario.leerArchivoUsuario();
-        connection=DriverManager.getConnection(url,usuarioBD.getUsuario(), usuarioBD.getContrasenia());
+        try {
+            connection = DriverManager.getConnection(url,usuarioBD.getUsuario(), usuarioBD.getContrasenia());
+        } catch (SQLException ex) {
+            System.err.println("Error de conexión con BD:"+ex.getMessage());
+        }
+       
     }
 
     public void closeConection(){
         if(connection!=null){
             try {
                 if(!connection.isClosed()){
-                    System.out.println("Éxito");
-                    connection.close();
+                    try {
+                        System.out.println("Éxito");
+                        connection.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ModConexionBD.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             } catch (SQLException ex) {
-                System.out.println("Error");
-                //Logger.getLogger(DataBaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ModConexionBD.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         }
     }
     

@@ -7,7 +7,6 @@ public class POJUsuario {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private String rol;
     private int codigoRespuesta;
 
     public int getIdUsuario() {
@@ -58,14 +57,6 @@ public class POJUsuario {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
-    
     public int getCodigoRespuesta() {
         return codigoRespuesta;
     }
@@ -73,7 +64,5 @@ public class POJUsuario {
     public void setCodigoRespuesta(int codigoRespuesta) {
         this.codigoRespuesta = codigoRespuesta;
     }
-    
 
-    
 }
