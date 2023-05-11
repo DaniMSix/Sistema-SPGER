@@ -2,6 +2,7 @@ package sistema.spger.controladores;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sistema.spger.SistemaSPGER;
 import sistema.spger.modelo.POJO.POJRol;
+import sistema.spger.modelo.POJO.POJRolRespuesta;
 import sistema.spger.modelo.POJO.POJUsuario;
 import sistema.spger.utils.Utilidades;
 
@@ -46,8 +48,6 @@ public class FXMLPantallaPrincipalController implements Initializable {
     @FXML
     private MenuBar menuBOpciones;
     
-    List<POJRol> listaRoles;
-    
     POJUsuario usuarioLogueado = null;
     @FXML
     private AnchorPane anchoPnPrincipal;
@@ -56,14 +56,18 @@ public class FXMLPantallaPrincipalController implements Initializable {
     
     private POJUsuario usuarioActual;
     
+    private POJRolRespuesta respuestaBD;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        desactivarItems();
     }   
     
-    public void mostrarRoles(List<POJRol> listaRoles){
+    public void mostrarRoles(POJRolRespuesta respuestaBD){
+        ArrayList<POJRol> listaRoles = respuestaBD.getListaRoles();
+        /*
         
-        
+        */
         
         for (int indice=0; indice<listaRoles.size(); indice++){
             String opcionRol = listaRoles.get(indice).getDescripcion();
@@ -86,11 +90,10 @@ public class FXMLPantallaPrincipalController implements Initializable {
         } 
     }
     
-    public void prepararRolesUsuario(List<POJRol> listaRolesDeUsuario, POJUsuario usuarioLogueado){
+    public void prepararRolesUsuario(POJRolRespuesta respuestaBD, POJUsuario usuarioLogueado){
         usuarioActual = usuarioLogueado;
-        listaRoles = listaRolesDeUsuario;
         
-        mostrarRoles(listaRoles);
+        mostrarRoles(respuestaBD);
         lbNombreUsuario.setText(usuarioLogueado.getNombre());
         
         

@@ -1,9 +1,7 @@
 package sistema.spger.controladores;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -19,12 +17,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sistema.spger.DAO.DAOInicioSesion;
+import sistema.spger.DAO.DAORol;
+import sistema.spger.DAO.DAOSesion;
 import sistema.spger.SistemaSPGER;
 import sistema.spger.modelo.POJO.POJUsuario;
 import sistema.spger.utils.Constantes;
 import sistema.spger.utils.Utilidades;
 import sistema.spger.modelo.POJO.POJRol;
+import sistema.spger.modelo.POJO.POJRolRespuesta;
 
 public class FXMLInicioSesionController implements Initializable {
 
@@ -36,8 +36,6 @@ public class FXMLInicioSesionController implements Initializable {
     
     String EXPRESION_COMPROBAR_EMAIL = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
         
-    
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -45,16 +43,16 @@ public class FXMLInicioSesionController implements Initializable {
 
     @FXML
     private void clicIniciarSesion(ActionEvent event) {
-        obtenerCamposIngresados();
+        obtenerInformacionIngresada();
     }
     
-    private void obtenerCamposIngresados(){
+    private void obtenerInformacionIngresada(){
         String correo = tfCorreo.getText();
         String contrasenia = pfContrasenia.getText();
-        validarCampos(correo, contrasenia);
+        validarInformacion(correo, contrasenia);
     }
     
-    public void validarCampos(String correo, String contrasenia){
+    public void validarInformacion(String correo, String contrasenia){
         
         boolean datosValidos = true;
         
@@ -77,7 +75,7 @@ public class FXMLInicioSesionController implements Initializable {
     
     public void validarCredencialesUsuario(String correo, String contrasenia) {
         List<POJRol> listaRoles = new ArrayList<>();
-        POJUsuario usuarioRespuesta = DAOInicioSesion.verificarSesionUsuario(correo, contrasenia);
+        POJUsuario usuarioRespuesta = DAOSesion.verificarSesionUsuario(correo, contrasenia);
         
         switch(usuarioRespuesta.getCodigoRespuesta()){
             
@@ -97,8 +95,9 @@ public class FXMLInicioSesionController implements Initializable {
                         "Bienvenido(a) "+usuarioRespuesta.toString()+" al sistema...", 
                         Alert.AlertType.INFORMATION);
                     int idUsuario = usuarioRespuesta.getIdUsuario();
-                    listaRoles = DAOInicioSesion.obtenerRoles(idUsuario);
-                    mostrarPantallaPrincipal(listaRoles, usuarioRespuesta);
+                    POJRolRespuesta respuestaBD = new POJRolRespuesta();
+                    respuestaBD = DAORol.obtenerRoles(idUsuario);
+                    mostrarPantallaPrincipal(respuestaBD, usuarioRespuesta);
                 } else {
                     Utilidades.mostrarDialogoSimple("Credenciales incorrectas", 
                             "El usuario y/o contraseña no son correctos, por favor verifica la información", 
@@ -109,7 +108,7 @@ public class FXMLInicioSesionController implements Initializable {
     
    
     
-    public void mostrarPantallaPrincipal(List<POJRol> listaRoles, POJUsuario usuarioVerificado) {
+    public void mostrarPantallaPrincipal(POJRolRespuesta respuestaBD, POJUsuario usuarioVerificado) {
        
         Stage escenarioBase = (Stage) tfCorreo.getScene().getWindow();
         Scene escena = null;
@@ -117,7 +116,7 @@ public class FXMLInicioSesionController implements Initializable {
         try {
             Parent vista = loader.load();
             FXMLPantallaPrincipalController pantallaPrincipal = loader.getController();
-            pantallaPrincipal.prepararRolesUsuario(listaRoles, usuarioVerificado);
+            pantallaPrincipal.prepararRolesUsuario(respuestaBD, usuarioVerificado);
             escena = new Scene(vista);
             escenarioBase.setScene(escena);
             escenarioBase.setAlwaysOnTop(true);
