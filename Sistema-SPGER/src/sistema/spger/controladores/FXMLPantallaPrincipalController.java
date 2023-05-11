@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -54,6 +55,8 @@ public class FXMLPantallaPrincipalController implements Initializable {
     private AnchorPane anchoPnPrincipal;
     @FXML
     private Label lbNombreUsuario;
+    @FXML
+    private Button btnAdminAnteproyecto;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -186,6 +189,14 @@ public class FXMLPantallaPrincipalController implements Initializable {
         } catch (IOException ex) {
             System.err.println("ERROR: " + ex.getMessage());
         }
+    }
+
+    @FXML
+    private void clicAdminAnteproyecto(ActionEvent event) throws IOException {
+        Stage escenarioBase = (Stage) lbNombreUsuario.getScene().getWindow();
+        escenarioBase.setScene(Utilidades.inicializarEscena("vistas/FXMLAdministrarAnteproyecto.fxml"));
+        escenarioBase.setTitle("Administrar Anteproyecto");
+        escenarioBase.show();  
     }
 }
 

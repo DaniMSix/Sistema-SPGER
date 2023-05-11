@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="370.0" prefWidth="625.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.spger.controladores.FXMLAgregarAnteproyectoController">
+   <children>
+      <Pane layoutX="30.0" layoutY="33.0" opacity="0.06" prefHeight="311.0" prefWidth="380.0" style="-fx-background-color: beige;" />
+      <ImageView fitHeight="378.0" fitWidth="672.0" layoutX="-14.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../utils/imagenes/img4.jpg" />
+         </image>
+      </ImageView>
+      <Button layoutX="537.0" layoutY="317.0" mnemonicParsing="false" onAction="#clicGuardar" style="-fx-background-color: #8BCDF1;" text="Guardar" />
+      <Button layoutX="224.0" layoutY="317.0" mnemonicParsing="false" onAction="#clicPostular" text="Postular" />
+      <Button layoutX="428.0" layoutY="317.0" mnemonicParsing="false" onAction="#clicCancelar" text="Cancelar" />
+      <TextField fx:id="tfNombreAnteproyecto" layoutX="224.0" layoutY="48.0" />
+      <Text layoutX="50.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Anteproyecto" />
+      <Text layoutX="116.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modalidad" />
+      <ComboBox fx:id="cbModalidad" layoutX="224.0" layoutY="102.0" onShowing="#listarModalidad" prefWidth="150.0" promptText="Elegir modalidad" style="-fx-background-color: #8BCDF1;" />
+      <Text layoutX="86.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adjuntar archivo" />
+      <Text layoutX="137.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LGAC" />
+      <ComboBox fx:id="cbLGAC" layoutX="224.0" layoutY="202.0" onShowing="#listarLGAC" prefWidth="150.0" promptText="Elegir LGAC" style="-fx-background-color: #8BCDF1;" />
+      <Label layoutX="192.0" layoutY="300.0" />
+      <Text layoutX="130.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Director" />
+      <Label fx:id="lbDirector" ellipsisString="" layoutX="224.0" layoutY="260.0" text="Director" />
+      <Button fx:id="btnSeleccionarArchivo" layoutX="224.0" layoutY="155.0" mnemonicParsing="false" onAction="#clicSeleccionarArchivo" style="-fx-background-color: #8BCDF1;" text="Seleccionar archivo" />
+   </children>
+</AnchorPane>

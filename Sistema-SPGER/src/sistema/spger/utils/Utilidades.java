@@ -1,5 +1,6 @@
 package sistema.spger.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -11,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sistema.spger.SistemaSPGER;
@@ -62,5 +64,14 @@ public class Utilidades {
             System.out.println(listaRolesDeUsuario.get(i).getRol());
         }
         
-    } 
+    }
+    public static File seleccionarArchivo(){
+            final FileChooser fc= new FileChooser();
+            fc.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("PDF","*.pdf"),
+                    new FileChooser.ExtensionFilter("word","*.docx"));
+            fc.setTitle("Seleccionar archivo");
+            File file =fc.showOpenDialog(null);
+        return file;
+    }
 }
