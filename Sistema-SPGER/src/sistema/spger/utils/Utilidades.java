@@ -1,6 +1,8 @@
 package sistema.spger.utils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -27,7 +29,7 @@ public class Utilidades {
         alertaSimple.setTitle(titulo);
         alertaSimple.setContentText(mensaje);
         alertaSimple.setHeaderText(null);
-        alertaSimple.showAndWait();
+        alertaSimple.show();
     }
     
     public static Scene inicializarEscena(String ruta) throws IOException {
@@ -74,4 +76,14 @@ public class Utilidades {
             File file =fc.showOpenDialog(null);
         return file;
     }
+    public static void descargarPDF(String nombreAnteproyecto,byte[] archivo) throws FileNotFoundException, IOException{
+        String directorioActual = System.getProperty(nombreAnteproyecto);
+        File archivoPdf = new File(directorioActual,nombreAnteproyecto+".pdf");
+        FileOutputStream fos = new FileOutputStream(archivoPdf);
+        Utilidades.mostrarDialogoSimple("NOTIFICAION","archivo guardado en "+archivoPdf.getAbsolutePath(),Alert.AlertType.INFORMATION);
+        fos.write(archivo);
+        System.out.println("archivo guardado en "+archivoPdf.getAbsolutePath());
+        fos.close();        
+    }
+
 }

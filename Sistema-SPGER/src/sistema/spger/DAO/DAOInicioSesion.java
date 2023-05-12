@@ -12,7 +12,6 @@ import sistema.spger.utils.Constantes;
 import sistema.spger.utils.Utilidades;
 
 public class DAOInicioSesion {
-    
     public POJUsuario verificarSesionUsuario(String correoUsuario, String contrasenia) throws SQLException, UnsupportedEncodingException{
         POJUsuario usuarioVerificado = new POJUsuario();
         ModConexionBD abrirConexion = new ModConexionBD();

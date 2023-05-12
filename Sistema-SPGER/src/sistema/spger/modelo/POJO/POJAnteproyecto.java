@@ -1,5 +1,13 @@
 package sistema.spger.modelo.POJO;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import sistema.spger.utils.Utilidades;
 
 public class POJAnteproyecto {
     private int idAnteproyecto;
@@ -9,8 +17,28 @@ public class POJAnteproyecto {
     private String nombreDirectorDeTrabajo;
     private int LGAC;
     private String estado;
+    private Button boton = new Button("Descargar archivo");
+
+    public Button getBoton() {
+        return boton;
+    }
+
+    public void setBoton(Button boton) {
+        this.boton = boton;
+    }
 
     public POJAnteproyecto() {
+        boton.setOnMouseReleased(new EventHandler() {
+	@Override
+            public void handle(Event arg0) {
+                System.out.println("Click en boton de "+nombreAnteproyecto);
+            try {
+                Utilidades.descargarPDF(nombreAnteproyecto,archivoAnteproyecto);
+            } catch (IOException ex) {
+                Logger.getLogger(POJAnteproyecto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+	});
     }
 
     public void setIdAnteproyecto(int idAnteproyecto) {

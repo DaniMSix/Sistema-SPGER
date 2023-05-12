@@ -75,10 +75,8 @@ public class FXMLInicioSesionController implements Initializable {
             FXMLPantallaPrincipalController pantallaPrincipal = loader.getController();
             //pantallaPrincipal.prepararRolesUsuario(listaRolesDeUsuario, usuarioActivo);
             escena = new Scene(vista);
-            escenarioBase.setScene(escena);
-            
-            
-            escenarioBase.setAlwaysOnTop(true);
+            escenarioBase.setScene(escena);       
+            escenarioBase.setAlwaysOnTop(false);
             escenarioBase.show();
             escenarioBase.setTitle("SSPGER");
         } catch (IOException ex) {

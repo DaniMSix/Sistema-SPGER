@@ -15,7 +15,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -73,12 +77,13 @@ public class FXMLAdministrarAnteproyectoController implements Initializable {
         Stage escenarioBase = (Stage) btnAgregarAnteproyecto.getScene().getWindow();
         escenarioBase.setScene(Utilidades.inicializarEscena("vistas/FXMLAgregarAnteproyecto.fxml"));
         escenarioBase.setTitle("Agregar anteproyecto");
+        escenarioBase.setAlwaysOnTop(false);
         escenarioBase.show();
     }
     private void configurarTabla(){
         colNombre.setCellValueFactory(new PropertyValueFactory("nombreAnteproyecto"));
         colModalidad.setCellValueFactory(new PropertyValueFactory("modalidad"));
-        colDocumento.setCellValueFactory(new PropertyValueFactory("archivoAnteproyecto"));
+        colDocumento.setCellValueFactory(new PropertyValueFactory("boton"));
         colLGAC.setCellValueFactory(new PropertyValueFactory("LGAC"));  
         colNombreDirector.setCellValueFactory(new PropertyValueFactory("nombreDirectorDeTrabajo"));
         colEstadoAnteproyecto.setCellValueFactory(new PropertyValueFactory("estado"));
@@ -86,26 +91,42 @@ public class FXMLAdministrarAnteproyectoController implements Initializable {
     
     private void cargarDatosTabla(){
         try {
-            System.out.println("\n1 no hay error todavia");
             listaAnteproyectos = FXCollections.observableArrayList();
-             System.out.println("\n2 no hay error todavia");
             ArrayList<POJAnteproyecto> anteproyectosBD = DAOAnteproyecto.obtenerInformacionAnteproyecto().getAnteproyectos();
-                         System.out.println("\n3 no hay error todavia");
-                         System.out.println("Codigo respuesta "+DAOAnteproyecto.obtenerInformacionAnteproyecto().getCodigoRespuesta());
             listaAnteproyectos.addAll(anteproyectosBD);
-                         System.out.println("\n4 no hay error todavia");
             tvAnteproyectos.setItems(listaAnteproyectos);
-                         System.out.println("\n5 no hay error todavia");
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
         }
     }
     @FXML
     private void clicModificar(ActionEvent event) {
+        POJAnteproyecto anteproyectoEdicion = verificarAnteproyectoSeleccionado();
+        if(anteproyectoEdicion!=null)
+            irFormulario(anteproyectoEdicion);
+        else
+            Utilidades.mostrarDialogoSimple("Selección obligatoria", 
+                    "Debes seleccionar algún registro de la tabla para su edición", Alert.AlertType.WARNING);
     }
 
     @FXML
     private void clicEliminar(ActionEvent event) {
     }
-    
+    private POJAnteproyecto verificarAnteproyectoSeleccionado(){
+        int filaSeleccionada = tvAnteproyectos.getSelectionModel().getSelectedIndex();
+        return (filaSeleccionada >= 0) ? listaAnteproyectos.get(filaSeleccionada):null;
+    }
+    private void irFormulario(POJAnteproyecto anteproyecto){
+        try {
+            System.out.println("En ir formulario");
+        Stage escenarioNuevo = (Stage) btnAgregarAnteproyecto.getScene().getWindow();
+            escenarioNuevo.setScene(Utilidades.inicializarEscena("vistas/FXMLAgregarAnteproyecto.fxml"));
+            escenarioNuevo.setTitle("Modficiar anteproyecto");
+            escenarioNuevo.initModality(Modality.APPLICATION_MODAL);
+            escenarioNuevo.showAndWait();
+        } catch (IOException e) {
+            Utilidades.mostrarDialogoSimple("Error", "No se puede mostrar la pantalla de formulario", 
+                    Alert.AlertType.ERROR);
+        }
+    }
 }
