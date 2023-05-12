@@ -81,56 +81,58 @@ public class FXMLAnadirUsuarioController implements Initializable {
             Utilidades.mostrarDialogoSimple("Correo inválido", "Por favor ingrese un "
                     + "correo válido", Alert.AlertType.ERROR);
         } 
+        
+        if (!(comprobarSeleccionRol())){
+            datosValidos = false;
+            Utilidades.mostrarDialogoSimple("Sin seleccion", "Seleccione"
+                    + " los roles necesarios para el usuario", Alert.AlertType.WARNING);
+            
+        } 
+        
+        if ((DAOUsuario.comprobarInformacionDuplicada(usuarioARegistrar).getUsuarioDuplicado())){
+            Utilidades.mostrarDialogoSimple("Datos duplicados", "Los "
+                    + "datos ya se enecuentran registrados en el sistema, por"
+                    + " favor ingresen nuevos datos", Alert.AlertType.WARNING);
+        }
+        
         if(datosValidos){
             registrarInformacionUsuario(correo, contrasenia, nombre, apellidoPaterno, apellidoMaterno);
         }
         
     }
     
-    public void registrarInformacionUsuario(String correo, String contrasenia, String nombre, 
-        String apellidoPaterno, String apellidoMaterno){
-        
+    public void registrarInformacionUsuario(String correo, String contrasenia, String nombre,
+            String apellidoPaterno, String apellidoMaterno) {
+
         POJUsuario usuarioRespuesta;
-        
+
         usuarioARegistrar.setCorreo(correo);
         usuarioARegistrar.setContrasenia(contrasenia);
         usuarioARegistrar.setNombre(nombre);
         usuarioARegistrar.setApellidoPaterno(apellidoPaterno);
         usuarioARegistrar.setApellidoMaterno(apellidoMaterno);
+
+        guardarRolesUsuario(usuarioARegistrar);
+        usuarioRespuesta = DAOUsuario.registrarUsuario(usuarioARegistrar);
         
-        
-        if (!(comprobarSeleccionRol())){
-            Utilidades.mostrarDialogoSimple("Sin seleccion", "Seleccione"
-                    + " los roles necesarios para el usuario", Alert.AlertType.WARNING);
-            
-        } if (!(DAOUsuario.comprobarInformacionDuplicada(usuarioARegistrar).getUsuarioDuplicado())){
-            Utilidades.mostrarDialogoSimple("Datos duplicados", "Los "
-                    + "datos ya se enecuentran registrados en el sistema, por"
-                    + " favor ingresen nuevos datos", Alert.AlertType.WARNING);
-        } 
-        else {
-            guardarRolesUsuario(usuarioARegistrar);
-            usuarioRespuesta = DAOUsuario.registrarUsuario(usuarioARegistrar);
-            switch(usuarioRespuesta.getCodigoRespuesta()){
-            
+        switch (usuarioRespuesta.getCodigoRespuesta()) {
             case Constantes.ERROR_CONEXION:
-                Utilidades.mostrarDialogoSimple("Error de conexión", 
-                        "Por el momento no hay conexión, intentelo más tarde", 
+                Utilidades.mostrarDialogoSimple("Error de conexión",
+                        "Por el momento no hay conexión, intentelo más tarde",
                         Alert.AlertType.ERROR);
                 break;
             case Constantes.ERROR_CONSULTA:
-                Utilidades.mostrarDialogoSimple("Error en la solicitud", 
-                        "Por el momento no se puede procesar la solicitud de verificación", 
+                Utilidades.mostrarDialogoSimple("Error en la solicitud",
+                        "Por el momento no se puede procesar la solicitud de verificación",
                         Alert.AlertType.ERROR);
                 break;
             case Constantes.OPERACION_EXITOSA:
-                if (usuarioRespuesta.getIdUsuario()>0){
-                    Utilidades.mostrarDialogoSimple("Información guardada", "El usuario se ha registrado correctamente", 
-                        Alert.AlertType.INFORMATION);
-                } 
+                if (usuarioRespuesta.getIdUsuario() > 0) {
+                    Utilidades.mostrarDialogoSimple("Información guardada", "El usuario se ha registrado correctamente",
+                            Alert.AlertType.INFORMATION);
+                }
         }
-        }
-        
+
     }
     
     
