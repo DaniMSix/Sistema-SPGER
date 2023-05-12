@@ -19,7 +19,7 @@
       <Label layoutX="123.0" layoutY="137.0" text="nrc:" />
       <Label layoutX="89.0" layoutY="194.0" text="Descripcion:" />
       <TextField fx:id="txfNombreCurso" layoutX="251.0" layoutY="75.0" prefHeight="39.0" prefWidth="774.0" />
-      <TextField fx:id="txfNrc" layoutX="251.0" layoutY="131.0" prefHeight="39.0" prefWidth="774.0" />
+      <TextField fx:id="txfNrc" layoutX="251.0" layoutY="131.0" prefHeight="39.0" prefWidth="147.0" />
       <TextArea fx:id="txAreaDescripcion" layoutX="251.0" layoutY="194.0" prefHeight="200.0" prefWidth="774.0" />
       <Label layoutX="23.0" layoutY="21.0" text="Ingrese la información requerida en los campos">
          <font>
@@ -29,10 +29,12 @@
       <Button fx:id="clicBotonGuardar" layoutX="366.0" layoutY="548.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="147.0" style="-fx-background-color: #8BCDF1;" text="Guardar" />
       <Button layoutX="598.0" layoutY="548.0" mnemonicParsing="false" onAction="#clicBotonCancelar" prefHeight="39.0" prefWidth="147.0" style="-fx-background-color: #FF6D60;" text="Cancelar" />
       <TextField fx:id="txfBloque" layoutX="251.0" layoutY="412.0" prefHeight="39.0" prefWidth="216.0" />
-      <TextField fx:id="txfPeriodo" layoutX="672.0" layoutY="412.0" prefHeight="39.0" prefWidth="356.0" />
+      <TextField fx:id="txfPeriodo" layoutX="598.0" layoutY="131.0" prefHeight="39.0" prefWidth="425.0" />
       <TextField fx:id="txfSeccion" layoutX="251.0" layoutY="466.0" prefHeight="39.0" prefWidth="216.0" />
       <Label layoutX="120.0" layoutY="418.0" text="Bloque:" />
       <Label layoutX="117.0" layoutY="472.0" text="Seccion:" />
-      <Label layoutX="598.0" layoutY="418.0" text="Periodo:" />
+      <Label layoutX="524.0" layoutY="137.0" text="Periodo:" />
+      <Label layoutX="598.0" layoutY="418.0" text="Profesor:" />
+      <ComboBox fx:id="cbProfesor" layoutX="672.0" layoutY="412.0" prefHeight="39.0" prefWidth="356.0" />
    </children>
 </AnchorPane>
