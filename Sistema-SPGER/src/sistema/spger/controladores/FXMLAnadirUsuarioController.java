@@ -52,8 +52,17 @@ public class FXMLAnadirUsuarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
+       tfCorreo.setText("");
+       tfContrasenia.setText("");
+       tfNombre.setText("");
+       tfApellidoPaterno.setText("");
+       tfApellidoMaterno.setText("");
     }    
+    
+    @FXML
+    private void clicGuardarInformacionUsuario(ActionEvent event) {
+        obtenerInformacionTextFields();
+    }
     
     public void obtenerInformacionTextFields(){
         String correo = tfCorreo.getText();
@@ -65,44 +74,46 @@ public class FXMLAnadirUsuarioController implements Initializable {
     }
     
     public void validarTextFileds(String correo, String contrasenia, String nombre, 
-            String apellidoPaterno, String apellidoMaterno){
+        String apellidoPaterno, String apellidoMaterno){
         
         boolean datosValidos = true;
         
-        if ((correo.isEmpty()) && (contrasenia.isEmpty()) && (nombre.isEmpty()) && 
-                (apellidoPaterno.isEmpty()) && (apellidoMaterno.isEmpty())){
-            datosValidos = false;
-            Utilidades.mostrarDialogoSimple("Campos vacíos", "Por favor llene todos los campos "
-                    + "con la información necesaria", Alert.AlertType.ERROR);
-        }
-        
-        if(!(correo.matches(EXPRESION_COMPROBAR_EMAIL))){
-            datosValidos = false;
-            Utilidades.mostrarDialogoSimple("Correo inválido", "Por favor ingrese un "
-                    + "correo válido", Alert.AlertType.ERROR);
-        } 
-        
-        if (!(comprobarSeleccionRol())){
-            datosValidos = false;
-            Utilidades.mostrarDialogoSimple("Sin seleccion", "Seleccione"
-                    + " los roles necesarios para el usuario", Alert.AlertType.WARNING);
+            System.out.println("Validar");
+            if ((correo.trim().isEmpty()) || (contrasenia.trim().isEmpty()) || (nombre.trim().isEmpty())
+                    || (apellidoPaterno.trim().isEmpty()) || (apellidoMaterno.trim().isEmpty())) {
+                datosValidos = false;
+                Utilidades.mostrarDialogoSimple("Campos vacíos", "Por favor llene todos los campos "
+                        + "con la información necesaria", Alert.AlertType.ERROR);
+            }
             
-        } 
-        
-        if ((DAOUsuario.comprobarInformacionDuplicada(usuarioARegistrar).getUsuarioDuplicado())){
-            Utilidades.mostrarDialogoSimple("Datos duplicados", "Los "
-                    + "datos ya se enecuentran registrados en el sistema, por"
-                    + " favor ingresen nuevos datos", Alert.AlertType.WARNING);
-        }
-        
+            if (!(correo.matches(EXPRESION_COMPROBAR_EMAIL))) {
+                datosValidos = false;
+                Utilidades.mostrarDialogoSimple("Correo inválido", "Por favor ingrese un "
+                        + "correo válido", Alert.AlertType.ERROR);
+            }
+            
+            if (!(comprobarSeleccionRol())) {
+                datosValidos = false;
+                Utilidades.mostrarDialogoSimple("Sin seleccion", "Seleccione"
+                        + " los roles necesarios para el usuario", Alert.AlertType.WARNING);
+                
+            }
+            
+            if ((DAOUsuario.comprobarInformacionDuplicada(usuarioARegistrar).getUsuarioDuplicado())) {
+                datosValidos = false;
+                Utilidades.mostrarDialogoSimple("Datos duplicados", "Los "
+                        + "datos ya se enecuentran registrados en el sistema, por"
+                        + " favor ingresen nuevos datos", Alert.AlertType.WARNING);
+            } 
         if(datosValidos){
+            System.out.println("Registrar");
             registrarInformacionUsuario(correo, contrasenia, nombre, apellidoPaterno, apellidoMaterno);
         }
         
     }
     
     public void registrarInformacionUsuario(String correo, String contrasenia, String nombre,
-            String apellidoPaterno, String apellidoMaterno) {
+        String apellidoPaterno, String apellidoMaterno) {
 
         POJUsuario usuarioRespuesta;
 
@@ -111,9 +122,9 @@ public class FXMLAnadirUsuarioController implements Initializable {
         usuarioARegistrar.setNombre(nombre);
         usuarioARegistrar.setApellidoPaterno(apellidoPaterno);
         usuarioARegistrar.setApellidoMaterno(apellidoMaterno);
-
-        guardarRolesUsuario(usuarioARegistrar);
+        
         usuarioRespuesta = DAOUsuario.registrarUsuario(usuarioARegistrar);
+        obtenerIdUsuario(usuarioARegistrar);
         
         switch (usuarioRespuesta.getCodigoRespuesta()) {
             case Constantes.ERROR_CONEXION:
@@ -123,7 +134,7 @@ public class FXMLAnadirUsuarioController implements Initializable {
                 break;
             case Constantes.ERROR_CONSULTA:
                 Utilidades.mostrarDialogoSimple("Error en la solicitud",
-                        "Por el momento no se puede procesar la solicitud de verificación",
+                        "Por el momento no se puede procesar la solicitud",
                         Alert.AlertType.ERROR);
                 break;
             case Constantes.OPERACION_EXITOSA:
@@ -136,48 +147,74 @@ public class FXMLAnadirUsuarioController implements Initializable {
     }
     
     
-    public void guardarRolesUsuario(POJUsuario usuarioARegistrar){
+    public void obtenerIdUsuario(POJUsuario usuarioARegistrar){
+        POJUsuario rolUsuario;
+        rolUsuario = DAOUsuario.obtenerIdDeUsuarioRegistrado(usuarioARegistrar);
+        
+        rolUsuario = DAOUsuario.obtenerIdDeUsuarioRegistrado(usuarioARegistrar);
+        int idUsuario = rolUsuario.getIdUsuario();
+        int codigoRespuesta = rolUsuario.getCodigoRespuesta();
+        
+        switch (codigoRespuesta) {
+            case Constantes.ERROR_CONEXION:
+                Utilidades.mostrarDialogoSimple("Error de conexión",
+                        "Por el momento no hay conexión, intentelo más tarde",
+                        Alert.AlertType.ERROR);
+                break;
+            case Constantes.ERROR_CONSULTA:
+                Utilidades.mostrarDialogoSimple("Error en la solicitud",
+                        "Por el momento no se puede procesar la solicitud de obtención del rol",
+                        Alert.AlertType.ERROR);
+                break;
+            case Constantes.OPERACION_EXITOSA:
+                registrarRol(idUsuario);
+        }
+    }
+    
+    public void registrarRol(int idUsuario){
         
         String nombreRol;
-        usuarioARegistrar = DAOUsuario.obtenerIdDeUsuarioRegistrado(usuarioARegistrar);
-        int idUsuario = usuarioARegistrar.getIdUsuario();
-        
-        rolARegistrar.setIdUsuario(idUsuario);
+        int codigoRespuesta;
         
         if(cbxAdministrador.isSelected()){
             nombreRol = cbxAdministrador.getText();
             rolARegistrar.setDescripcion(nombreRol);
-            DAORol.registrarRolUsuario(rolARegistrar).getCodigoRespuesta();
+            rolARegistrar.setIdUsuario(idUsuario);
+            codigoRespuesta = DAORol.registrarRolUsuario(rolARegistrar).getCodigoRespuesta();
+            comprobarRolGuardado(codigoRespuesta);
         }
+        
         if(cbxProfesor.isSelected()){
             nombreRol = cbxProfesor.getText();
             rolARegistrar.setDescripcion(nombreRol);
-            DAORol.registrarRolUsuario(rolARegistrar);
+            rolARegistrar.setIdUsuario(idUsuario);
+            codigoRespuesta = DAORol.registrarRolUsuario(rolARegistrar).getCodigoRespuesta();
+            comprobarRolGuardado(codigoRespuesta);
         }
             
         if(cbxDirectorDeTrabajo.isSelected()){
             nombreRol = cbxDirectorDeTrabajo.getText();
             rolARegistrar.setDescripcion(nombreRol);
-            DAORol.registrarRolUsuario(rolARegistrar);
+            rolARegistrar.setIdUsuario(idUsuario);
+            codigoRespuesta = DAORol.registrarRolUsuario(rolARegistrar).getCodigoRespuesta();
+            comprobarRolGuardado(codigoRespuesta);
         }
         
         if(cbxResponsableCA.isSelected()){
             nombreRol = cbxResponsableCA.getText();
             rolARegistrar.setDescripcion(nombreRol);
-            DAORol.registrarRolUsuario(rolARegistrar);
+            rolARegistrar.setIdUsuario(idUsuario);
+            codigoRespuesta = DAORol.registrarRolUsuario(rolARegistrar).getCodigoRespuesta();
+            comprobarRolGuardado(codigoRespuesta);
         }
         
         if(cbxEstudiante.isSelected()){
             nombreRol = cbxEstudiante.getText();
             rolARegistrar.setDescripcion(nombreRol);
-            DAORol.registrarRolUsuario(rolARegistrar);
+            rolARegistrar.setIdUsuario(idUsuario);
+            codigoRespuesta = DAORol.registrarRolUsuario(rolARegistrar).getCodigoRespuesta();
+            comprobarRolGuardado(codigoRespuesta);
         }
-          
-    }
-
-    @FXML
-    private void clicGuardarInformacionUsuario(ActionEvent event) throws SQLException {
-        obtenerInformacionTextFields();
         
     }
     
@@ -254,5 +291,23 @@ public class FXMLAnadirUsuarioController implements Initializable {
         }
     }
     
+    public void comprobarRolGuardado(int codigoRespuesta){
+         switch (codigoRespuesta) {
+            case Constantes.ERROR_CONEXION:
+                Utilidades.mostrarDialogoSimple("Error de conexión",
+                        "Por el momento no hay conexión, intentelo más tarde",
+                        Alert.AlertType.ERROR);
+                break;
+            case Constantes.ERROR_CONSULTA:
+                Utilidades.mostrarDialogoSimple("Error en la solicitud",
+                        "Por el momento no se puede procesar la solicitud de obtención del rol",
+                        Alert.AlertType.ERROR);
+                break;
+            case Constantes.OPERACION_EXITOSA:
+                Utilidades.mostrarDialogoSimple("Rol guardado con éxito",
+                        "Se ha guardado correctamente el rol del usuario",
+                        Alert.AlertType.INFORMATION);
+        }
+    }
     
 }

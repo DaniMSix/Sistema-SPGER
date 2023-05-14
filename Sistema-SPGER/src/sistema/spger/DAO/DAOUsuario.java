@@ -30,6 +30,7 @@ public class DAOUsuario {
                 prepararSentencia.setString(5, apellidoMaterno);
                 prepararSentencia.executeUpdate();
                 usuarioARegistrar.setCodigoRespuesta(Constantes.OPERACION_EXITOSA);
+                System.out.println("DAO Registrar usuario");
                 }
             catch (SQLException ex) {
                 usuarioARegistrar.setCodigoRespuesta(Constantes.ERROR_CONSULTA);
@@ -58,6 +59,7 @@ public class DAOUsuario {
                 usuarioRegistrado.setCodigoRespuesta(Constantes.OPERACION_EXITOSA);
                 if (resultado.next()) {
                     int idUsuario = resultado.getInt("idUsuario");
+                    System.out.println("idUsuario DAO"+ idUsuario);
                     usuarioRegistrado.setIdUsuario(idUsuario);
                 }
             } catch (SQLException ex) {
@@ -89,7 +91,6 @@ public class DAOUsuario {
                 respuestaConsulta.setCodigoRespuesta(Constantes.OPERACION_EXITOSA);
                 if (resultado.next()) {
                     boolean usuarioDuplicado = resultado.getBoolean("result");
-                    System.out.println(usuarioDuplicado);
                     respuestaConsulta.setUsuarioDuplicado(usuarioDuplicado);
                 }
                 
