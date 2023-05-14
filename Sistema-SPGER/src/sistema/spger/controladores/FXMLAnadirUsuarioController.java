@@ -1,7 +1,6 @@
 package sistema.spger.controladores;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -70,10 +69,10 @@ public class FXMLAnadirUsuarioController implements Initializable {
         String nombre = tfNombre.getText();
         String apellidoPaterno = tfApellidoPaterno.getText();
         String apellidoMaterno = tfApellidoMaterno.getText();
-        validarTextFileds(correo, contrasenia, nombre, apellidoPaterno, apellidoMaterno);
+        validarTextFields(correo, contrasenia, nombre, apellidoPaterno, apellidoMaterno);
     }
     
-    public void validarTextFileds(String correo, String contrasenia, String nombre, 
+    public void validarTextFields(String correo, String contrasenia, String nombre, 
         String apellidoPaterno, String apellidoMaterno){
         
         boolean datosValidos = true;
@@ -99,6 +98,8 @@ public class FXMLAnadirUsuarioController implements Initializable {
                 
             }
             
+            System.out.println("Nombre " + usuarioARegistrar.getNombre());
+            
             if ((DAOUsuario.comprobarInformacionDuplicada(usuarioARegistrar).getUsuarioDuplicado())) {
                 datosValidos = false;
                 Utilidades.mostrarDialogoSimple("Datos duplicados", "Los "
@@ -106,7 +107,6 @@ public class FXMLAnadirUsuarioController implements Initializable {
                         + " favor ingresen nuevos datos", Alert.AlertType.WARNING);
             } 
         if(datosValidos){
-            System.out.println("Registrar");
             registrarInformacionUsuario(correo, contrasenia, nombre, apellidoPaterno, apellidoMaterno);
         }
         

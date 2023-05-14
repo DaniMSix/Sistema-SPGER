@@ -1,5 +1,7 @@
 package sistema.spger.modelo.POJO;
 
+import java.util.Objects;
+
 public class POJUsuario {
     private int idUsuario;
     private String correo;
@@ -7,6 +9,7 @@ public class POJUsuario {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
+    private String nombreCompleto;
     private int codigoRespuesta;
 
     public int getIdUsuario() {
@@ -65,4 +68,14 @@ public class POJUsuario {
         this.codigoRespuesta = codigoRespuesta;
     }
 
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    @Override
+    public String toString() {
+        return nombreCompleto;
+    }
+
+    
 }

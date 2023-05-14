@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import sistema.spger.modelo.POJO.POJProfesor;
 import sistema.spger.modelo.POJO.POJUsuario;
 
 

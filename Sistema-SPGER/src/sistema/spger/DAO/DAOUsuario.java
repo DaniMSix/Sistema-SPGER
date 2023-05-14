@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import sistema.spger.modelo.ModConexionBD;
 import sistema.spger.modelo.POJO.POJUsuario;
 import sistema.spger.modelo.POJO.POJUsuarioRespuesta;
@@ -30,7 +31,6 @@ public class DAOUsuario {
                 prepararSentencia.setString(5, apellidoMaterno);
                 prepararSentencia.executeUpdate();
                 usuarioARegistrar.setCodigoRespuesta(Constantes.OPERACION_EXITOSA);
-                System.out.println("DAO Registrar usuario");
                 }
             catch (SQLException ex) {
                 usuarioARegistrar.setCodigoRespuesta(Constantes.ERROR_CONSULTA);
@@ -103,5 +103,7 @@ public class DAOUsuario {
         }
         return respuestaConsulta;
     }
+    
+    
 
 }
