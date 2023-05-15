@@ -98,8 +98,6 @@ public class FXMLAnadirUsuarioController implements Initializable {
                 
             }
             
-            System.out.println("Nombre " + usuarioARegistrar.getNombre());
-            
             if ((DAOUsuario.comprobarInformacionDuplicada(usuarioARegistrar).getUsuarioDuplicado())) {
                 datosValidos = false;
                 Utilidades.mostrarDialogoSimple("Datos duplicados", "Los "

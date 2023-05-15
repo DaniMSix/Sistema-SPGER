@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.spger.controladores.FXMLAñadirLGACController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.spger.controladores.FXMLAnadirLGACController">
    <children>
       <ImageView fitHeight="446.0" fitWidth="828.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -22,9 +22,9 @@
       </Label>
       <Label layoutX="49.0" layoutY="85.0" text="Nombre:" />
       <Label layoutX="36.0" layoutY="143.0" text="Descripcion:" />
-      <TextField layoutX="157.0" layoutY="79.0" prefHeight="39.0" prefWidth="598.0" />
-      <TextArea layoutX="157.0" layoutY="143.0" prefHeight="200.0" prefWidth="598.0" />
-      <Button layoutX="211.0" layoutY="367.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="131.0" style="-fx-background-color: #8BCDF1;" text="Guardar" />
-      <Button layoutX="416.0" layoutY="367.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="131.0" style="-fx-background-color: #FF6D60;" text="Cancelar" />
+      <TextField fx:id="txfNombre" layoutX="157.0" layoutY="79.0" prefHeight="39.0" prefWidth="598.0" />
+      <TextArea fx:id="txAreaDescripcion" layoutX="157.0" layoutY="143.0" prefHeight="200.0" prefWidth="598.0" />
+      <Button layoutX="211.0" layoutY="367.0" mnemonicParsing="false" onAction="#clicBotonGuardar" prefHeight="39.0" prefWidth="131.0" style="-fx-background-color: #8BCDF1;" text="Guardar" />
+      <Button layoutX="416.0" layoutY="367.0" mnemonicParsing="false" onAction="#clicBotonCancelar" prefHeight="39.0" prefWidth="131.0" style="-fx-background-color: #FF6D60;" text="Cancelar" />
    </children>
 </AnchorPane>

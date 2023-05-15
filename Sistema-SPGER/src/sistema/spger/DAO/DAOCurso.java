@@ -76,6 +76,5 @@ public class DAOCurso {
             respuesta = Constantes.ERROR_CONEXION;
         }
         return respuesta;
-    }                    
-
+    }          
 }

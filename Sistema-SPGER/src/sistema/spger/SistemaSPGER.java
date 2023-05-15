@@ -12,7 +12,7 @@ public class SistemaSPGER extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("vistas/FXMLAnadirCurso.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("vistas/FXMLAnadirLGAC.fxml"));
         Scene scene = new Scene(root);
         primaryStage.getIcons().add(new Image("sistema/spger/utils/imagenes/Libreta.png"));
         primaryStage.setScene(scene);

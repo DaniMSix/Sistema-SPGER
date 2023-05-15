@@ -5,6 +5,10 @@ public class POJCursoRespuesta {
     private boolean cursoDuplicado;
     private int codigoRespuesta;
 
+    public POJCursoRespuesta() {
+        
+    }
+
     public boolean isCursoDuplicado() {
         return cursoDuplicado;
     }
@@ -21,5 +25,9 @@ public class POJCursoRespuesta {
         this.codigoRespuesta = codigoRespuesta;
     }
 
+    public POJCursoRespuesta(boolean cursoDuplicado, int codigoRespuesta) {
+        this.cursoDuplicado = cursoDuplicado;
+        this.codigoRespuesta = codigoRespuesta;
+    }
     
 }
