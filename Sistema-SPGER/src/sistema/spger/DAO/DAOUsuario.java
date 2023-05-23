@@ -104,6 +104,73 @@ public class DAOUsuario {
         return respuestaConsulta;
     }
     
+    public static POJUsuarioRespuesta obtenerUsuarios(){
+        
+        POJUsuarioRespuesta respuesta = new POJUsuarioRespuesta();
+        ArrayList<POJUsuario> usuarioConsulta = new ArrayList();
+        
+        ModConexionBD abrirConexion = new ModConexionBD();
+        Connection conexion = abrirConexion.getConnection();
+        
+        if(conexion != null){
+            try{
+                String consulta = "SELECT u.idUsuario, GROUP_CONCAT(r.descripcion SEPARATOR ', ') AS roles,  CONCAT(u.nombre, ' ', " +
+                    "u.apellidoPaterno, '  ', u.apellidoMaterno) AS Nombre, u.correo, u.password FROM usuario u JOIN rol r ON " +
+                    "r.Usuario_idUsuario = u.idUsuario  GROUP BY u.nombre, u.apellidoPaterno, u.apellidoMaterno, u.idUsuario";
+                PreparedStatement prepararSentencia = conexion.prepareStatement(consulta);
+                ResultSet resultado =  prepararSentencia.executeQuery();
+                respuesta.setCodigoRespuesta(Constantes.OPERACION_EXITOSA);
+                while(resultado.next()){
+                    POJUsuario usuario = new POJUsuario();
+                    usuario.setIdUsuario(resultado.getInt("idUsuario"));
+                    usuario.setRol(resultado.getString("roles"));
+                    usuario.setNombreCompleto(resultado.getString("Nombre"));
+                    usuario.setCorreo(resultado.getString("correo"));
+                    usuario.setContrasenia(resultado.getString("password"));
+                    usuarioConsulta.add(usuario);
+                }
+                respuesta.setUsuarios(usuarioConsulta);
+            }catch (SQLException e){
+               respuesta.setCodigoRespuesta(Constantes.ERROR_CONSULTA);
+            }
+        }else{
+            respuesta.setCodigoRespuesta(Constantes.ERROR_CONEXION);
+        }
+        return respuesta;
+    }
+        
+    public static POJUsuario obtenerUsuarioPorId(int idUsuario){
+        POJUsuario usuarioRespuesta = new POJUsuario();
+        ModConexionBD abrirConexion = new ModConexionBD();
+        ArrayList<POJUsuario> usuarios = new ArrayList();
+        Connection conexion = abrirConexion.getConnection();
+        if(conexion != null){
+            try{
+                String consulta = "SELECT u.idUsuario, GROUP_CONCAT(r.descripcion SEPARATOR ', ') AS roles,  CONCAT(u.nombre, ' ', " +
+                    "u.apellidoPaterno, '  ', u.apellidoMaterno) AS Nombre  FROM usuario u JOIN rol r ON " +
+                    "r.Usuario_idUsuario = u.idUsuario  GROUP BY u.nombre, u.apellidoPaterno, u.apellidoMaterno, u.idUsuario";
+                PreparedStatement prepararSentencia = conexion.prepareStatement(consulta);
+                prepararSentencia.setInt(1, idUsuario);
+                ResultSet resultado =  prepararSentencia.executeQuery();
+                usuarioRespuesta.setCodigoRespuesta(Constantes.OPERACION_EXITOSA);
+                
+                if(resultado.next()){
+                    POJUsuario usuario = new POJUsuario();
+                    usuario.setIdUsuario(resultado.getInt("idUsuario"));
+                    usuario.setCorreo(resultado.getString("correo"));
+                    usuario.setNombreCompleto(resultado.getString("Nombre"));
+                    usuario.setRol(resultado.getString("roles"));
+                    usuarios.add(usuario);
+                }
+            }catch (SQLException e){
+               usuarioRespuesta.setCodigoRespuesta(Constantes.ERROR_CONSULTA);
+            }
+        }else{
+            usuarioRespuesta.setCodigoRespuesta(Constantes.ERROR_CONEXION);
+        }
+        return usuarioRespuesta;
+        
+    }
     
 
 }

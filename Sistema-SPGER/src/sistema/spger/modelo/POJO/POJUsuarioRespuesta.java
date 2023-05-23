@@ -7,6 +7,8 @@ public class POJUsuarioRespuesta {
     private boolean usuarioDuplicado;
     private int codigoRespuesta;
     private ArrayList<POJUsuario> profesores;
+    private ArrayList<POJUsuario> usuarios;
+    
 
     public boolean getUsuarioDuplicado() {
         return usuarioDuplicado;
@@ -30,5 +32,13 @@ public class POJUsuarioRespuesta {
 
     public void setProfesores(ArrayList<POJUsuario> profesores) {
         this.profesores = profesores;
+    }
+
+    public ArrayList<POJUsuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(ArrayList<POJUsuario> usuarios) {
+        this.usuarios = usuarios;
     }
 }

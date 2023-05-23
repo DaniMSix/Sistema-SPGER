@@ -8,32 +8,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="548.0" prefWidth="988.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.spger.controladores.FXMLConsultarUsuarioController">
+<AnchorPane id="AnchorPane" minWidth="-Infinity" prefHeight="504.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.spger.controladores.FXMLConsultarUsuarioController">
    <children>
-      <ImageView fitHeight="636.0" fitWidth="1077.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="550.0" fitWidth="925.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../utils/imagenes/Fondo-CU.png" />
          </image>
       </ImageView>
-      <TableView fx:id="tvUsuarios" layoutX="51.0" layoutY="168.0" prefHeight="341.0" prefWidth="978.0">
+      <TableView fx:id="tvUsuarios" layoutX="51.0" layoutY="134.0" onMouseClicked="#dobleClicFila" prefHeight="298.0" prefWidth="824.0">
         <columns>
-          <TableColumn fx:id="tcRol" prefWidth="214.0" text="Rol(es)" />
-          <TableColumn fx:id="tcNombre" prefWidth="763.0" text="Nombre" />
+          <TableColumn fx:id="tcRol" prefWidth="276.0" text="Rol(es)" />
+          <TableColumn fx:id="tcNombre" prefWidth="197.0" text="Nombre" />
+            <TableColumn fx:id="tcCorreo" prefWidth="175.0" text="Correo" />
+            <TableColumn fx:id="tcContrasenia" prefWidth="171.0" text="Contraseña" />
         </columns>
       </TableView>
-      <TextField layoutX="51.0" layoutY="102.0" promptText="Buscar por rol" />
-      <TextField layoutX="325.0" layoutY="102.0" promptText="Buscar por nombre" />
-      <Button layoutX="527.0" layoutY="529.0" mnemonicParsing="false" onAction="#clicBotonModificar" prefHeight="39.0" prefWidth="140.0" text="Modificar" />
-      <Button layoutX="697.0" layoutY="529.0" mnemonicParsing="false" onAction="#clicBotonAnadirUsuario" style="-fx-background-color: #8BCDF1;" text="Añadir usuario" />
-      <Label layoutX="51.0" layoutY="14.0" lineSpacing="1.0" prefHeight="53.0" prefWidth="996.0" text="Para ver los datos de un usuario, de doble clic en una de las filas de la tabla y para modificar, solo seleccione una fila " textAlignment="JUSTIFY">
+      <TextField fx:id="txfBuscarRol" layoutX="51.0" layoutY="68.0" promptText="Buscar por rol" />
+      <TextField fx:id="txfBuscarPorNombre" layoutX="325.0" layoutY="68.0" promptText="Buscar por nombre" />
+      <Button layoutX="340.0" layoutY="454.0" mnemonicParsing="false" onAction="#clicBotonModificar" prefHeight="39.0" prefWidth="140.0" text="Modificar" />
+      <Button layoutX="524.0" layoutY="454.0" mnemonicParsing="false" onAction="#clicBotonAnadirUsuario" style="-fx-background-color: #8BCDF1;" text="Añadir usuario" />
+      <Label fx:id="lbTitulo" layoutX="51.0" layoutY="14.0" lineSpacing="1.0" prefHeight="53.0" prefWidth="830.0" text="Para modificar un usuario, solo seleccione una fila y de clic en el botón modificar" textAlignment="JUSTIFY">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="51.0" layoutY="54.0" text="y de clic en el botón modificar">
+      <Label layoutX="51.0" layoutY="54.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Label>
-      <Button layoutX="866.0" layoutY="529.0" mnemonicParsing="false" onAction="#clicBotonCancelar" prefHeight="39.0" prefWidth="140.0" style="-fx-background-color: #FF6D60;" text="Cancelar" />
+      <Button layoutX="699.0" layoutY="454.0" mnemonicParsing="false" onAction="#clicBotonCancelar" prefHeight="39.0" prefWidth="140.0" style="-fx-background-color: #FF6D60;" text="Cancelar" />
    </children>
 </AnchorPane>

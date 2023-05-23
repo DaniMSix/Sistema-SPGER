@@ -10,7 +10,29 @@ public class POJUsuario {
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String nombreCompleto;
+    private String rol;
     private int codigoRespuesta;
+
+    public POJUsuario(int idUsuario, String correo, String contrasenia, String nombre, String apellidoPaterno, String apellidoMaterno, String nombreCompleto, String rol, int codigoRespuesta) {
+        this.idUsuario = idUsuario;
+        this.correo = correo;
+        this.contrasenia = contrasenia;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.nombreCompleto = nombreCompleto;
+        this.rol = rol;
+        this.codigoRespuesta = codigoRespuesta;
+    }
+
+    public POJUsuario() {
+        
+    }
+    
+    @Override
+    public String toString() {
+        return nombreCompleto;
+    }
 
     public int getIdUsuario() {
         return idUsuario;
@@ -60,6 +82,22 @@ public class POJUsuario {
         this.apellidoMaterno = apellidoMaterno;
     }
 
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
     public int getCodigoRespuesta() {
         return codigoRespuesta;
     }
@@ -67,15 +105,6 @@ public class POJUsuario {
     public void setCodigoRespuesta(int codigoRespuesta) {
         this.codigoRespuesta = codigoRespuesta;
     }
-
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
-    }
-
-    @Override
-    public String toString() {
-        return nombreCompleto;
-    }
-
     
+
 }
