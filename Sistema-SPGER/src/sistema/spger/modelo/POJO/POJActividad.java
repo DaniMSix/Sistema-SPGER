@@ -1,16 +1,14 @@
 package sistema.spger.modelo.POJO;
 
-import java.time.LocalDate;
-import java.util.Date;
-
-
 public class POJActividad {
     private int idActividad;
     private String nombre;
     private String descripcion;
-    private Date fechaCreacion;
-    private Date fechaLimiteEntrega;
+    private String fechaCreacion;
+    private String fechaLimiteEntrega;
+    private String estado;
     private int idEstudiante;
+    private int codigoRespuesta;
 
     public POJActividad() {
     }
@@ -39,22 +37,7 @@ public class POJActividad {
         this.descripcion = descripcion;
     }
 
-    public Date getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public Date getFechaLimiteEntrega() {
-        return fechaLimiteEntrega;
-    }
-
-    public void setFechaLimiteEntrega(Date fechaLimiteEntrega) {
-        this.fechaLimiteEntrega = fechaLimiteEntrega;
-    }
-
+    
     public int getIdEstudiante() {
         return idEstudiante;
     }
@@ -63,15 +46,37 @@ public class POJActividad {
         this.idEstudiante = idEstudiante;
     }
 
-    public POJActividad(int idActividad, String nombre, String descripcion, Date fechaCreacion, Date fechaLimiteEntrega, int idEstudiante) {
-        this.idActividad = idActividad;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.fechaCreacion = fechaCreacion;
-        this.fechaLimiteEntrega = fechaLimiteEntrega;
-        this.idEstudiante = idEstudiante;
+    public String getEstado() {
+        return estado;
     }
-    
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public int getCodigoRespuesta() {
+        return codigoRespuesta;
+    }
+
+    public void setCodigoRespuesta(int codigoRespuesta) {
+        this.codigoRespuesta = codigoRespuesta;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public String getFechaLimiteEntrega() {
+        return fechaLimiteEntrega;
+    }
+
+    public void setFechaLimiteEntrega(String fechaLimiteEntrega) {
+        this.fechaLimiteEntrega = fechaLimiteEntrega;
+    }
     
     
 }

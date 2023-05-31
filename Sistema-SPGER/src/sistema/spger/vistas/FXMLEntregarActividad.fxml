@@ -7,10 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sistema.spger.controladores.FXMLEntregarActividadController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sistema.spger.controladores.FXMLEntregarActividadController">
    <children>
-      <ImageView fitHeight="453.0" fitWidth="727.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="497.0" fitWidth="752.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../utils/imagenes/Fondo-CU.png" />
          </image>

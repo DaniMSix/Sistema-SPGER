@@ -10,8 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import sistema.spger.SistemaSPGER;
-import sistema.spger.modelo.POJO.POJUsuario;
 
 
 public class Utilidades {
@@ -21,6 +22,13 @@ public class Utilidades {
         alertaSimple.setTitle(titulo);
         alertaSimple.setContentText(mensaje);
         alertaSimple.setHeaderText(null);
+        
+        //alertaSimple.initModality(Modality.APPLICATION_MODAL);
+        
+        //Stage stage = (Stage) alertaSimple.getDialogPane().getScene().getWindow();
+    //stage.initOwner(null); // Establecer el propietario como null para asegurarse de que se muestre por encima de otras ventanas
+
+        
         alertaSimple.showAndWait();
     }
     
