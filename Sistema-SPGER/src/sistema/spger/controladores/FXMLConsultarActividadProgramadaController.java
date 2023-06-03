@@ -138,7 +138,6 @@ public class FXMLConsultarActividadProgramadaController implements Initializable
             Scene escena = new Scene(vista);
             Stage escenarioBase = new Stage();
             escenarioBase.initModality(Modality.APPLICATION_MODAL);
-            //escenarioBase.setAlwaysOnTop(true);
             escenarioBase.setScene(escena);
             escenarioBase.showAndWait();
         } catch (IOException ex) {

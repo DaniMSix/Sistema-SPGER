@@ -41,7 +41,4 @@ public class POJCursoRespuesta {
         this.codigoRespuesta = codigoRespuesta;
         this.cursos = cursos;
     }
-
-    
-    
 }

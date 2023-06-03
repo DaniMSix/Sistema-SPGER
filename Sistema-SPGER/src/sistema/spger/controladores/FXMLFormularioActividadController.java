@@ -61,8 +61,7 @@ public class FXMLFormularioActividadController implements Initializable {
     }    
     
     public int inicializarInformacionFormulario(String tipoClicBoton, POJActividad actividadEdicion){
-       
-       // this.interfazNotificacion = interfazNotificacion;
+
         actividadInformacion =  actividadEdicion;
         tipoBoton = tipoClicBoton;
        
@@ -116,8 +115,6 @@ public class FXMLFormularioActividadController implements Initializable {
     
     @FXML
     private void clicBotonGuardar(ActionEvent event) {
-        System.err.println("Botón guardar:" + tipoBoton);
-        
         if(tipoBoton.equals("Modificar")){
             POJActividad actividadAModificar = obtenerInformacionIngresada();
             actividadAModificar.setIdActividad(actividadInformacion.getIdActividad());
