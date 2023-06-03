@@ -15,8 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import sistema.spger.SistemaSPGER;
 import sistema.spger.controladores.FXMLPantallaPrincipalController;
 import sistema.spger.modelo.POJO.POJUsuario;
@@ -61,13 +59,7 @@ public class Utilidades {
         return contrasenaEncriptada;
     }
     
-    public static void recibirRolesDeUsuario(List<POJUsuario> listaRolesDeUsuario){
-        for (int i=0; i<listaRolesDeUsuario.size(); i++){
-            System.out.println(listaRolesDeUsuario.get(i).getRol());
-        }
-        
-    }
-    public static File seleccionarArchivo(){
+        public static File seleccionarArchivo(){
             final FileChooser fc= new FileChooser();
             fc.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("PDF","*.pdf"),
@@ -85,5 +77,5 @@ public class Utilidades {
         System.out.println("archivo guardado en "+archivoPdf.getAbsolutePath());
         fos.close();        
     }
-
+    
 }

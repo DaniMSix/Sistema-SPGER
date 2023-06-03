@@ -14,10 +14,58 @@ public class POJAnteproyecto {
     private String nombreAnteproyecto;
     private String modalidad;
     private byte[] archivoAnteproyecto;
+    private int idDirectorDeTrabajo;
+    private int idLGAC;
+    private int idEstado;
+    private String nombreEstado;
+    private String nombreLGAC;
     private String nombreDirectorDeTrabajo;
-    private int LGAC;
-    private String estado;
     private Button boton = new Button("Descargar archivo");
+
+    public int getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(int idEstado) {
+        this.idEstado = idEstado;
+    }
+
+    public POJAnteproyecto(int idAnteproyecto, String nombreAnteproyecto, String modalidad, byte[] archivoAnteproyecto, int idDirectorDeTrabajo, int idLGAC, String nombreLGAC, String nombreDirectorDeTrabajo, String estado) {
+        this.idAnteproyecto = idAnteproyecto;
+        this.nombreAnteproyecto = nombreAnteproyecto;
+        this.modalidad = modalidad;
+        this.archivoAnteproyecto = archivoAnteproyecto;
+        this.idDirectorDeTrabajo = idDirectorDeTrabajo;
+        this.idLGAC = idLGAC;
+        this.nombreLGAC = nombreLGAC;
+        this.nombreDirectorDeTrabajo = nombreDirectorDeTrabajo;
+        this.nombreEstado = estado;
+    }
+
+    public void setIdLGAC(int idLGAC) {
+        this.idLGAC = idLGAC;
+    }
+
+    public void setNombreLGAC(String nombreLGAC) {
+        this.nombreLGAC = nombreLGAC;
+    }
+
+    public void setNombreDirectorDeTrabajo(String nombreDirectorDeTrabajo) {
+        this.nombreDirectorDeTrabajo = nombreDirectorDeTrabajo;
+    }
+
+    public int getIdLGAC() {
+        return idLGAC;
+    }
+
+    public String getNombreLGAC() {
+        return nombreLGAC;
+    }
+
+    public String getNombreDirectorDeTrabajo() {
+        return nombreDirectorDeTrabajo;
+    }
+    
 
     public Button getBoton() {
         return boton;
@@ -57,16 +105,16 @@ public class POJAnteproyecto {
         this.archivoAnteproyecto = archivoAnteproyecto;
     }
 
-    public void setNombreDirectorDeTrabajo(String nombreDirectorDeTrabajo) {
-        this.nombreDirectorDeTrabajo = nombreDirectorDeTrabajo;
+    public void setIdDirectorDeTrabajo(int nombreDirectorDeTrabajo) {
+        this.idDirectorDeTrabajo = nombreDirectorDeTrabajo;
     }
 
     public void setLGAC(int LGAC) {
-        this.LGAC = LGAC;
+        this.idLGAC = LGAC;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setNombreEstado(String estado) {
+        this.nombreEstado = estado;
     }
 
     public int getIdAnteproyecto() {
@@ -85,23 +133,23 @@ public class POJAnteproyecto {
         return archivoAnteproyecto;
     }
 
-    public String getNombreDirectorDeTrabajo() {
-        return nombreDirectorDeTrabajo;
+    public int getIdDirectorDeTrabajo() {
+        return idDirectorDeTrabajo;
     }
 
     public int getLGAC() {
-        return LGAC;
+        return idLGAC;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getNombreEstado() {
+        return nombreEstado;
     }
 
-    public POJAnteproyecto(String nombreAnteproyecto, String modalidad, byte[] archivoAnteproyecto, String nombreDirectorDeTrabajo, int LGAC) {
+    public POJAnteproyecto(String nombreAnteproyecto, String modalidad, byte[] archivoAnteproyecto, int idDirectorDeTrabajo, int LGAC) {
         this.nombreAnteproyecto = nombreAnteproyecto;
         this.modalidad = modalidad;
         this.archivoAnteproyecto = archivoAnteproyecto;
-        this.nombreDirectorDeTrabajo = nombreDirectorDeTrabajo;
-        this.LGAC = LGAC;
+        this.idDirectorDeTrabajo = idDirectorDeTrabajo;
+        this.idLGAC = LGAC;
     }
 }

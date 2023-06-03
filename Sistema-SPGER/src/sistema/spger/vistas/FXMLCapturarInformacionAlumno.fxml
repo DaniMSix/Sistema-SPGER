@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="343.0" prefWidth="601.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="sistema.spger.controladores.FXMLCapturarInformacionAlumnoController">
+   <children>
+      <ImageView fitHeight="370.0" fitWidth="608.0" layoutX="-7.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../utils/imagenes/img4.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="204.0" layoutY="54.0" text="Introduce la matricula del estudiante" />
+      <TextField layoutX="204.0" layoutY="78.0" prefHeight="25.0" prefWidth="194.0" />
+      <ListView fx:id="lvEstudiantes" layoutX="201.0" layoutY="128.0" prefHeight="169.0" prefWidth="200.0" />
+      <Button layoutX="273.0" layoutY="303.0" mnemonicParsing="false" onAction="#clicAsignar" text="Asignar" />
+   </children>
+</AnchorPane>

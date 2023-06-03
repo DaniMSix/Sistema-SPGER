@@ -1,0 +1,4 @@
+# pack-refs with: peeled fully-peeled sorted 
+b1e5d3692b536cd382592ffbdd45cd8d50237b16 refs/heads/main
+96d696a55ba231a6a2d98c660d5bba24c2086bb5 refs/heads/origin/rama-Antonio
+e823d93bd168b984a4c21cda95540eaa851c908a refs/heads/rama-cesar

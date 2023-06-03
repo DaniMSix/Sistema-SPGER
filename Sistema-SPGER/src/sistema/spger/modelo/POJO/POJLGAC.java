@@ -53,6 +53,11 @@ public class POJLGAC{
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
+
+    public POJLGAC(int idLGAC, String nombre) {
+        this.idLGAC = idLGAC;
+        this.nombre = nombre;
+    }
     @Override
     public String toString() {
         return nombre;

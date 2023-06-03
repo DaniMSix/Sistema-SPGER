@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="sistema.spger.controladores.FXMLConsultarAnteproyectosController">
+   <children>
+      <ImageView fitHeight="447.0" fitWidth="714.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../utils/imagenes/img4.jpg" />
+         </image>
+      </ImageView>
+      <Text layoutX="51.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Consultar anteproyectos" />
+      <TableView fx:id="tvAnteproyectos" layoutX="33.0" layoutY="137.0" prefHeight="217.0" prefWidth="639.0">
+         <columns>
+            <TableColumn fx:id="colNombre" prefWidth="100.00002670288086" text="Nombre" />
+            <TableColumn fx:id="colModalidad" prefWidth="108.00004577636719" text="Modalidad" />
+            <TableColumn fx:id="colDocumento" prefWidth="125.3333740234375" text="Documento" />
+            <TableColumn fx:id="colLGAC" prefWidth="72.66668701171875" text="LGAC" />
+            <TableColumn fx:id="colNombreDirector" prefWidth="110.66659545898438" text="Nombre director" />
+            <TableColumn fx:id="colEstadoAnteproyecto" prefWidth="118.00006103515625" text="Estado" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

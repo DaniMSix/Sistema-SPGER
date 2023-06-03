@@ -12,7 +12,7 @@ import sistema.spger.utils.Constantes;
 import sistema.spger.utils.Utilidades;
 
 public class DAOInicioSesion {
-    public POJUsuario verificarSesionUsuario(String correoUsuario, String contrasenia) throws SQLException, UnsupportedEncodingException{
+    public static POJUsuario verificarSesionUsuario(String correoUsuario, String contrasenia) throws SQLException, UnsupportedEncodingException{
         POJUsuario usuarioVerificado = new POJUsuario();
         ModConexionBD abrirConexion = new ModConexionBD();
         Connection conexion = abrirConexion.getConnection();
@@ -46,7 +46,7 @@ public class DAOInicioSesion {
         return usuarioVerificado;
     }
     
-    public List<POJUsuario> obtenerRoles(int idUsuario) throws SQLException{
+    public static List<POJUsuario> obtenerRoles(int idUsuario) throws SQLException{
         ArrayList<POJUsuario> listaRoles = new ArrayList<>();
         ModConexionBD abrirConexion = new ModConexionBD();
         Connection conexion = abrirConexion.getConnection();

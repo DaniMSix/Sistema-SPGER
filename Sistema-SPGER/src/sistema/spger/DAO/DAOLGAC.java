@@ -19,8 +19,8 @@ public class DAOLGAC {
         Connection conexionBD = conexion.getConnection();
         if(conexionBD != null){
             try{
-                String consulta = "SELECT idLGAC, numeroLinea, nombre, descripcion " +
-                                        "from lgac ";
+                String consulta = "SELECT idLGAC, nombre, descripcion " +
+                                        "from lgac; ";
                 PreparedStatement prepararSentencia = conexionBD.prepareStatement(consulta);
                 ResultSet resultado = prepararSentencia.executeQuery();
                 ArrayList<POJLGAC> LGACConsulta = new ArrayList();
@@ -28,7 +28,6 @@ public class DAOLGAC {
                     POJLGAC lgac = new POJLGAC();
                     lgac.setIdLGAC(resultado.getInt("idLGAC"));
                     lgac.setNombre(resultado.getString("nombre"));
-                    lgac.setNumeroLinea(resultado.getString("numeroLinea"));
                     lgac.setDescripcion(resultado.getString("descripcion"));
                     LGACConsulta.add(lgac);
                 }
@@ -41,6 +40,7 @@ public class DAOLGAC {
         }else{
             respuesta.setCodigoRespuesta(Constantes.ERROR_CONEXION);
         }
+        System.out.println(" respuesta "+respuesta.getCodigoRespuesta());
         return respuesta;
     }
 }
