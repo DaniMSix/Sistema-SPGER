@@ -53,15 +53,7 @@ public class FXMLConsultarEntregasController implements Initializable {
     }    
     
     public void inicializarInformacion(){
-        idEstudiante = 1;
-        idCurso = 13;
-        
-        /*
-        for (POJCursoActividad elemento : listaIdActividades) {
-            System.out.println(elemento.getIdActividad());
-        }
-        */
-        
+        //TODOOOOOOOOOOOOOOOO
     }
     
     public void configurarTablaActividadesEntregas(){
@@ -92,9 +84,6 @@ public class FXMLConsultarEntregasController implements Initializable {
     @FXML
     private void clicBotonEntregar(ActionEvent event) {
         POJActividadEntrega actividadSeleccionada = tvEntregas.getSelectionModel().getSelectedItem();
-        System.err.println("Nombre " + actividadSeleccionada.getNombre());
-        System.err.println("Nombre " + actividadSeleccionada.getDescripcion());
-        System.err.println("id actividad" + actividadSeleccionada.getIdActividad());
         if(actividadSeleccionada != null){
             irFormulario("Registrar", actividadSeleccionada);
         }
@@ -108,8 +97,11 @@ public class FXMLConsultarEntregasController implements Initializable {
     @FXML
     private void clicBotonModificar(ActionEvent event) {
         POJActividadEntrega actividadSeleccionada = tvEntregas.getSelectionModel().getSelectedItem();
+        
         if(actividadSeleccionada != null){
+            System.out.println("actividadSeleccionada.getComentariosAlumno();" + actividadSeleccionada.getComentariosAlumno());
             irFormulario("Modificar", actividadSeleccionada);
+            
         }else{
             Utilidades.mostrarDialogoSimple("Atención", "Selecciona el registro "
                     + "en la tabla para poder editarlo", Alert.AlertType.WARNING);
@@ -130,7 +122,6 @@ public class FXMLConsultarEntregasController implements Initializable {
             Scene escena = new Scene(vista);
             Stage escenarioBase = new Stage();
             escenarioBase.initModality(Modality.APPLICATION_MODAL);
-            //escenarioBase.setAlwaysOnTop(true);
             escenarioBase.setScene(escena);
             escenarioBase.showAndWait();
         } catch (IOException ex) {

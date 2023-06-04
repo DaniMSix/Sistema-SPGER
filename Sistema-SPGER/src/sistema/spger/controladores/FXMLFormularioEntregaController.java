@@ -17,31 +17,21 @@ import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sistema.spger.DAO.DAOEntrega;
-import sistema.spger.modelo.POJO.POJActividad;
 import sistema.spger.modelo.POJO.POJActividadEntrega;
-import sistema.spger.modelo.POJO.POJActividadRespuesta;
 import sistema.spger.modelo.POJO.POJArchivos;
 import sistema.spger.modelo.POJO.POJArchivosRespuesta;
 import sistema.spger.modelo.POJO.POJEntrega;
 import sistema.spger.utils.Constantes;
 import sistema.spger.utils.Utilidades;
 
-/**
- * FXML Controller class
- *
- * @author Dani
- */
 public class FXMLFormularioEntregaController implements Initializable {
 
     @FXML
     private Label lbNombreActividad;
     @FXML
-    private TextArea txArea;
-    @FXML
     private ListView<String> listViewArchivos;
     @FXML
     private Label lbTamanioMaximo;
-    private POJArchivosRespuesta archivosInformacion;
     POJActividadEntrega actividadInformacion = new  POJActividadEntrega();
     String tipoBoton;
     POJArchivosRespuesta archivosAGuardar = new POJArchivosRespuesta();
@@ -52,6 +42,9 @@ public class FXMLFormularioEntregaController implements Initializable {
     @FXML
     private TextArea txAreaDescripcion;
     private int idActividad;
+    @FXML
+    private TextArea txAreaComentariosAlumno;
+    int idEntrega;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -68,7 +61,9 @@ public class FXMLFormularioEntregaController implements Initializable {
        switch(tipoClicBoton){
             case "Modificar":
                 lbTitulo.setText("Modificar actividad");
-                //asignarInformacionCampos(actividadInformacion);
+                idEntrega = actividadInformacion.getIdEntrega();
+                asignarCamposInformacion(idEntrega);
+                
                 //dpFechaCreacion.setEditable(false);
                 break;
             case "Registrar":
@@ -100,8 +95,6 @@ public class FXMLFormularioEntregaController implements Initializable {
                     break;
                 }
                 archivosASubir.setArchivosEntrega(file);
-                //archivosASubir.setEntrega_idEntrega(respuestaBD.getIdEntrega());
-                System.err.println("ARCHIVOS idActividad: " + archivosASubir.getEntrega_idEntrega());
                 archivosAGuardar.getArchivosEntrega().add(archivosASubir);
                 listViewArchivos.getItems().add(file.getName());
             }
@@ -114,31 +107,38 @@ public class FXMLFormularioEntregaController implements Initializable {
         }
 
     }
+
+    private POJArchivosRespuesta asignarIdEntregaAArchivos(int entregaId) {
+        List<POJArchivos> archivos = archivosAGuardar.getArchivosEntrega();
+        for (POJArchivos archivo : archivos) {
+            archivo.setEntrega_idEntrega(entregaId);
+            System.out.println("id asignar" + archivo.getEntrega_idEntrega());
+        }
+        return archivosAGuardar;
+    }
+
     
     public POJEntrega obtenerInformacionIngresada(){
         POJEntrega informacionEntrega= new POJEntrega();
-        String comentariosAlumno = txArea.getText();
+        String comentariosAlumno = txAreaComentariosAlumno.getText();
         informacionEntrega.setComentariosAlumno(comentariosAlumno);
         return informacionEntrega;
     }
     
-    private POJArchivosRespuesta asignarIdEntregaAArchivos(int idEntrega) {
-        for (File file : selectedFiles) {
-            POJArchivos archivosASubir = new POJArchivos();
-            long tamanioArchivo = file.length();
-            archivosASubir.setArchivosEntrega(file);
-            archivosASubir.setEntrega_idEntrega(idEntrega); // Asignar el ID de la entrega
-            archivosInformacion.getArchivosEntrega().add(archivosASubir);
-            archivosAGuardar.getArchivosEntrega().add(archivosASubir);
-            listViewArchivos.getItems().add(file.getName());
+    public void asignarCamposInformacion(int idEntrega){
+        lbNombreActividad.setText(actividadInformacion.getNombre());
+        txAreaDescripcion.setText(actividadInformacion.getDescripcion());
+        txAreaComentariosAlumno.setText(actividadInformacion.getComentariosAlumno());
+        List<POJArchivos> archivosEntrega = DAOEntrega.obtenerArchivosEntregaPorId(idEntrega).getArchivosEntrega();
+        for (POJArchivos archivo : archivosEntrega) {
+            // Accede a los atributos o métodos de cada archivo
+            File archivoEntrega = archivo.getArchivosEntrega();
+            listViewArchivos.getItems().add(archivoEntrega.getName());
         }
-
     }
-
-
+    
     @FXML
     private void clicBotonGuardar(ActionEvent event) {
-        System.err.println("Boton guardar " + actividadInformacion.getIdActividad());
         
         POJEntrega entregaInformacion = new POJEntrega();
         entregaInformacion = obtenerInformacionIngresada();
@@ -150,16 +150,14 @@ public class FXMLFormularioEntregaController implements Initializable {
         // OBTENER ID DE LA ENTREGA
         POJEntrega respuestaBDIdEntrega = DAOEntrega.obtenerIdEntrega(entregaInformacion);
         
-        
-        
         // REGISTRAR ARCHIVOS 
-        asignarIdEntregaAArchivos(respuestaBDIdEntrega.getIdEntrega());
+        archivosAGuardar = asignarIdEntregaAArchivos(respuestaBDIdEntrega.getIdEntrega());
         int codigoRespuesta = DAOEntrega.registrarArchivosEntrega(archivosAGuardar);
         
         // ACTUALIZAR ESTADO
         int respuestaActualizacionEstado = DAOEntrega.actualizarEstadoActividad("Entregada", idActividad);
 
-                switch (codigoRespuesta) {
+                switch (respuestaRegistroEntrega) {
                     case Constantes.ERROR_CONEXION:
                         Utilidades.mostrarDialogoSimple("Error de conexión",
                                 "Por el momento no hay conexión, inténtelo más tarde",

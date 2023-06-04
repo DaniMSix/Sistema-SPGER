@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sistema.spger.controladores;
 
 import java.io.IOException;
@@ -26,8 +21,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sistema.spger.DAO.DAOActividad;
+import sistema.spger.DAO.DAOActividadEntrega;
 import sistema.spger.SistemaSPGER;
 import sistema.spger.modelo.POJO.POJActividad;
+import sistema.spger.modelo.POJO.POJActividadEntrega;
+import sistema.spger.modelo.POJO.POJActividadEntregaRespuesta;
 import sistema.spger.modelo.POJO.POJActividadRespuesta;
 import sistema.spger.modelo.POJO.POJUsuario;
 import sistema.spger.utils.Constantes;
@@ -41,15 +39,17 @@ import sistema.spger.utils.Utilidades;
 public class FXMLConsultarActividadProgramadaController implements Initializable {
 
     @FXML
-    private TableView<POJActividad> tvActividadesProgramadas;
+    private TableView<POJActividadEntrega> tvActividadesProgramadas;
     @FXML
     private TableColumn tcNombre;
     @FXML
     private TableColumn tcFechaLimiteEntrega;
     @FXML
     private TableColumn tcEstado;
-    private ObservableList<POJActividad> actividades;
+    private ObservableList<POJActividadEntrega> actividades;
     POJUsuario estudianteActual;
+    private int idEstudiante = 1;
+    private int idCurso = 13;
 
     /**
      * Initializes the controller class.
@@ -63,6 +63,7 @@ public class FXMLConsultarActividadProgramadaController implements Initializable
     
     public void recibirInformacionEstudiante(POJUsuario usuarioLogueado){
         estudianteActual = usuarioLogueado;
+        // TODO
     }
     
     public void configurarTablaUsuarios(){
@@ -73,7 +74,7 @@ public class FXMLConsultarActividadProgramadaController implements Initializable
     
     public void cargarInformacionTabla() {
         actividades = FXCollections.observableArrayList();
-        POJActividadRespuesta respuestaBD = DAOActividad.obtenerActividadesProgramadas(44);
+        POJActividadEntregaRespuesta respuestaBD = DAOActividadEntrega.obtenerEntregaActividades(idEstudiante, idCurso);
 
         switch (respuestaBD.getCodigoRespuesta()) {
             case Constantes.ERROR_CONEXION:
@@ -83,7 +84,7 @@ public class FXMLConsultarActividadProgramadaController implements Initializable
                 Utilidades.mostrarDialogoSimple("Error", "Error al cargar los datos", Alert.AlertType.ERROR);
                 break;
             case Constantes.OPERACION_EXITOSA:
-                actividades.addAll(respuestaBD.getActividades());
+                actividades.addAll(respuestaBD.getActividadesEntregas());
                 tvActividadesProgramadas.setItems(actividades);
                 break;
         }
@@ -94,9 +95,7 @@ public class FXMLConsultarActividadProgramadaController implements Initializable
         if ( event.getClickCount() == 2){
             tvActividadesProgramadas.getSelectionModel().getSelectedItem().getIdActividad();
             int idActividad = tvActividadesProgramadas.getSelectionModel().getSelectedItem().getIdActividad();
-            System.out.println("idActividad" + idActividad);
-            POJActividad respuestaBD = DAOActividad.obtenerActividadPorId(idActividad);
-            
+            POJActividadEntrega respuestaBD = DAOActividadEntrega.obtenerActividadPorId(idActividad);
             switch (respuestaBD.getCodigoRespuesta()) {
             case Constantes.ERROR_CONEXION:
                 Utilidades.mostrarDialogoSimple("Sin conexión", "Por el momento no es posible mostrar"
@@ -106,7 +105,7 @@ public class FXMLConsultarActividadProgramadaController implements Initializable
                 Utilidades.mostrarDialogoSimple("Error", "Error al cargar los datos", Alert.AlertType.ERROR);
                 break;
             case Constantes.OPERACION_EXITOSA:
-                irFormulario("Ver detalle", respuestaBD);
+                irFormulario("Ver detalle", respuestaBD, 0, 0);
                 break;
         }
         } 
@@ -115,9 +114,9 @@ public class FXMLConsultarActividadProgramadaController implements Initializable
 
     @FXML
     private void clicBotonModificar(ActionEvent event) {
-        POJActividad actividadSeleccionada = tvActividadesProgramadas.getSelectionModel().getSelectedItem();
+        POJActividadEntrega actividadSeleccionada = tvActividadesProgramadas.getSelectionModel().getSelectedItem();
         if(actividadSeleccionada != null){
-            irFormulario("Modificar", actividadSeleccionada);
+            irFormulario("Modificar", actividadSeleccionada, 0, 0);
         }else{
             Utilidades.mostrarDialogoSimple("Atención", "Selecciona el registro "
                     + "en la tabla para poder editarlo", Alert.AlertType.WARNING);
@@ -128,13 +127,13 @@ public class FXMLConsultarActividadProgramadaController implements Initializable
     private void clicBotonEliminar(ActionEvent event) {
     }
     
-    private void irFormulario(String tipoBoton, POJActividad actividadInformacion){
+    private void irFormulario(String tipoBoton, POJActividadEntrega actividadInformacion, int idEstudiante, int idCurso){
 
         try {
             FXMLLoader loader = new FXMLLoader(SistemaSPGER.class.getResource("vistas/FXMLFormularioActividad.fxml"));
             Parent vista = loader.load();
             FXMLFormularioActividadController formularioActividad = loader.getController();
-            formularioActividad.inicializarInformacionFormulario(tipoBoton, actividadInformacion);
+            formularioActividad.inicializarInformacionFormulario(tipoBoton, actividadInformacion, idEstudiante, idCurso);
             Scene escena = new Scene(vista);
             Stage escenarioBase = new Stage();
             escenarioBase.initModality(Modality.APPLICATION_MODAL);
@@ -148,10 +147,8 @@ public class FXMLConsultarActividadProgramadaController implements Initializable
 
     @FXML
     private void clicBotonAgregarTarea(ActionEvent event) {
-        POJActividad actividadSeleccionada = tvActividadesProgramadas.getSelectionModel().getSelectedItem();
-        irFormulario("Registrar", actividadSeleccionada);
+        irFormulario("Registrar", null, idEstudiante, idCurso);
     }
-    
     
     
 }

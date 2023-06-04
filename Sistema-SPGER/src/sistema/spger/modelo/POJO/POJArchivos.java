@@ -5,6 +5,7 @@ import java.io.File;
 
 public class POJArchivos {
     private int idArchivos;
+    private String nombreArchivo;
     private File archivosEntrega;
     private int entrega_idEntrega;
 
@@ -30,5 +31,13 @@ public class POJArchivos {
 
     public void setEntrega_idEntrega(int entrega_idEntrega) {
         this.entrega_idEntrega = entrega_idEntrega;
+    }
+
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
+
+    public void setNombreArchivo(String nombreArchivo) {
+        this.nombreArchivo = nombreArchivo;
     }
 }

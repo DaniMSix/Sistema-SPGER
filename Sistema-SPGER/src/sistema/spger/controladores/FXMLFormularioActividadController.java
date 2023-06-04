@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sistema.spger.controladores;
 
 import java.net.URL;
@@ -21,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import sistema.spger.DAO.DAOActividad;
 import sistema.spger.modelo.POJO.POJActividad;
+import sistema.spger.modelo.POJO.POJActividadEntrega;
 import sistema.spger.utils.Constantes;
 import sistema.spger.utils.Utilidades;
 
@@ -45,25 +41,23 @@ public class FXMLFormularioActividadController implements Initializable {
     private Button btnGuardar;
     @FXML
     private Button btnCancelar;
-    String tipoBoton;
+    private String tipoBoton;
+    private int idEstudiante;
+    private int idCurso;
     
-    POJActividad actividadInformacion = new  POJActividad();
+    
+    POJActividadEntrega actividadInformacion = new  POJActividadEntrega();
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         dpFechaEntrega.setDayCellFactory(getDayCellFactory());
-        //dpFechaCreacion.setValue(LocalDate.now());
-        //dpFechaCreacion.setEditable(false);
     }    
     
-    public int inicializarInformacionFormulario(String tipoClicBoton, POJActividad actividadEdicion){
+    public void inicializarInformacionFormulario(String tipoClicBoton, POJActividadEntrega actividadEdicion, int idEstudiante, int idCurso){
 
         actividadInformacion =  actividadEdicion;
         tipoBoton = tipoClicBoton;
+        //idEstudiante = actividadInformacion.getIdUsuario();
        
        switch(tipoClicBoton){
             case "Ver detalle":
@@ -78,20 +72,13 @@ public class FXMLFormularioActividadController implements Initializable {
             case "Registrar":
                 dpFechaCreacion.setEditable(false);
                 dpFechaCreacion.setValue(LocalDate.now());
-                
+                this.idEstudiante = idEstudiante;
+                this.idCurso = idCurso;
                 break;
        }
-       return actividadInformacion.getIdEstudiante();
     }
     
-    
-    public int obtenerIdEstudiante(POJActividad actividadInformacion){
-       int idEstudiante = actividadInformacion.getIdEstudiante();
-       return idEstudiante;
-    }
-    
-    
-    private void cargarInformacionDetalle(POJActividad informacionActividad){
+    private void cargarInformacionDetalle(POJActividadEntrega informacionActividad){
         asignarInformacionCampos(informacionActividad);
         desactivarCampos();
         btnGuardar.setDisable(true);
@@ -105,7 +92,7 @@ public class FXMLFormularioActividadController implements Initializable {
         dpFechaEntrega.setEditable(false);
     }
 
-    public void asignarInformacionCampos(POJActividad informacionActividad){
+    public void asignarInformacionCampos(POJActividadEntrega informacionActividad){
         txfNombre.setText(informacionActividad.getNombre());
         txAreaDescripcion.setText(informacionActividad.getDescripcion());
         dpFechaEntrega.setValue(LocalDate.parse(informacionActividad.getFechaLimiteEntrega()));
@@ -118,7 +105,8 @@ public class FXMLFormularioActividadController implements Initializable {
         if(tipoBoton.equals("Modificar")){
             POJActividad actividadAModificar = obtenerInformacionIngresada();
             actividadAModificar.setIdActividad(actividadInformacion.getIdActividad());
-                int respuestaBD = DAOActividad.modificarActividad(actividadAModificar);
+                
+            int respuestaBD = DAOActividad.modificarActividad(actividadAModificar);
                 switch (respuestaBD) {
                 case Constantes.ERROR_CONEXION:
                     Utilidades.mostrarDialogoSimple("Error de conexión",
@@ -134,16 +122,26 @@ public class FXMLFormularioActividadController implements Initializable {
                     Utilidades.mostrarDialogoSimple("Información modificada correctamente", "El usuario se ha modificado correctamente",
                             Alert.AlertType.INFORMATION);
             }
+            
         } 
         
         if(tipoBoton.equals("Registrar")){
-            System.err.println("id estudiante registrar " + actividadInformacion.getIdEstudiante());
-            System.err.println("Entro");
+            
             POJActividad actividadARegistrar = obtenerInformacionIngresada();
-            actividadARegistrar.setIdEstudiante(actividadInformacion.getIdEstudiante());
-            System.out.println("id estudiante " +actividadARegistrar.getIdEstudiante());
             actividadARegistrar.setEstado("Sin entregar");
-                int respuestaBD = DAOActividad.registrarActividad(actividadARegistrar);
+                
+            // REGISTRAR ACTIVIDAD
+            int respuestaBD = DAOActividad.registrarActividad(actividadARegistrar);
+            
+            // OBTENER ID DE LA ACTIVIDAD
+            POJActividad actividadId = DAOActividad.obtenerIdActividad(actividadARegistrar);
+            
+            // REGISTRAR CURSO_ACTIVIDAD
+            int respuestaRegistroCursoActividad = DAOActividad.registrarCursoActividad(idCurso, actividadId.getIdActividad());
+            
+            // REGISTRAR USUARIO_ACTIVIDAD
+            int respuestaRegistroUsuarioActividad = DAOActividad.registrarUsuarioActividad(idEstudiante, actividadId.getIdActividad());
+            
                 switch (respuestaBD) {
                 case Constantes.ERROR_CONEXION:
                     Utilidades.mostrarDialogoSimple("Error de conexión",
@@ -156,7 +154,7 @@ public class FXMLFormularioActividadController implements Initializable {
                             Alert.AlertType.ERROR);
                     break;
                 case Constantes.OPERACION_EXITOSA:
-                    Utilidades.mostrarDialogoSimple("Información registrada correctamente", "El usuario se ha registrado correctamente",
+                    Utilidades.mostrarDialogoSimple("Información registrada correctamente", "La actividad se ha registrado correctamente",
                             Alert.AlertType.INFORMATION);
         }
         }
@@ -176,12 +174,9 @@ public class FXMLFormularioActividadController implements Initializable {
         return actividadInformacionIngresada;
     }
     
-    
     public boolean validarInformacion(POJActividad actividadInformacionIngresada) {
         
         boolean datosValidos = true;
-        
-        System.out.println("Validar");
         
         if(actividadInformacionIngresada.getFechaLimiteEntrega() == null){
             datosValidos = false;
@@ -198,7 +193,6 @@ public class FXMLFormularioActividadController implements Initializable {
         if(datosValidos){
             datosValidos = true;
         }
-        
         
         return datosValidos;
     }
@@ -222,36 +216,5 @@ public class FXMLFormularioActividadController implements Initializable {
             }
         };
     }
-    
-    /*
-    public void registrarInformacionValidada(String nombre, String descripcion, DatePicker fechaLimiteEntrega){
-        
-        POJActividad actividadARegistrar = new POJActividad();
-        actividadARegistrar.setNombre(nombre);
-        actividadARegistrar.setDescripcion(descripcion);
-        actividadARegistrar.setFechaLimiteEntrega(fechaLimiteEntrega.getValue().toString());
-        String fechaActual = LocalDate.now().toString();
-        actividadARegistrar.setFechaCreacion(fechaActual);
-        actividadARegistrar.setEstado("Sin entregar");
-        actividadARegistrar.setIdEstudiante(44);
-        
-        int respuesta = DAOActividad.registrarActividad(actividadARegistrar);
-        switch (respuesta) {
-            case Constantes.ERROR_CONEXION:
-                Utilidades.mostrarDialogoSimple("Error de conexión",
-                        "Por el momento no hay conexión, intentelo más tarde",
-                        Alert.AlertType.ERROR);
-                break;
-            case Constantes.ERROR_CONSULTA:
-                Utilidades.mostrarDialogoSimple("Error en la solicitud",
-                        "Por el momento no se puede procesar la solicitud",
-                        Alert.AlertType.ERROR);
-                break;
-            case Constantes.OPERACION_EXITOSA:
-                Utilidades.mostrarDialogoSimple("Información guardada", "El usuario se ha registrado correctamente",
-                            Alert.AlertType.INFORMATION);
-        }
-    }
-    */
     
 }

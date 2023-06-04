@@ -13,6 +13,9 @@ public class POJActividadEntrega {
     private String comentariosAlumno;
     private String fechaEntrega;
     private int Estudiante_idUsuario;
+    private String fechaCreacion;
+    private int idEntrega;
+    private int idUsuario;
     private int codigoRespuesta;
     
     
@@ -113,4 +116,27 @@ public class POJActividadEntrega {
         this.codigoRespuesta = codigoRespuesta;
     }
 
+    public int getIdEntrega() {
+        return idEntrega;
+    }
+
+    public void setIdEntrega(int idEntrega) {
+        this.idEntrega = idEntrega;
+    }
+
+    public String getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(String fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 }

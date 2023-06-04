@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import sistema.spger.modelo.ModConexionBD;
+import sistema.spger.modelo.POJO.POJActividad;
 import sistema.spger.modelo.POJO.POJActividadEntrega;
 import sistema.spger.modelo.POJO.POJActividadEntregaRespuesta;
 import sistema.spger.utils.Constantes;
@@ -22,7 +23,7 @@ public class DAOActividadEntrega {
         if(conexion != null){
             try{
                 String consulta = "SELECT ca.idCurso, ca.idActividad, a.nombre, a.descripcion, a.estado, a.fechaLimiteEntrega, " +
-                "e.calificacion, e.observacionProfesor, e.comentariosAlumno, e.fechaEntrega " +
+                "e.idEntrega, e.calificacion, e.observacionProfesor, e.comentariosAlumno, e.fechaEntrega, a.fechaCreacion,  ua.idUsuario " +
                 "FROM curso_actividad ca " +
                 "LEFT JOIN usuario_actividad ua ON ca.idActividad = ua.idActividad " +
                 "LEFT JOIN actividad a ON a.idActividad = ua.idActividad " +
@@ -45,6 +46,9 @@ public class DAOActividadEntrega {
                     actividadEntrega.setObservacionProfesor(resultado.getString("observacionProfesor"));
                     actividadEntrega.setComentariosAlumno(resultado.getString("comentariosAlumno"));
                     actividadEntrega.setFechaEntrega(resultado.getString("fechaEntrega"));
+                    actividadEntrega.setIdEntrega(resultado.getInt("idEntrega"));
+                    actividadEntrega.setFechaCreacion(resultado.getString("fechaCreacion"));
+                    actividadEntrega.setIdUsuario(resultado.getInt("idUsuario"));
                     actividadConsulta.add(actividadEntrega);
                 }
                 respuestaBD.setActividadesEntregas(actividadConsulta);
@@ -52,6 +56,34 @@ public class DAOActividadEntrega {
                respuestaBD.setCodigoRespuesta(Constantes.ERROR_CONSULTA);
             }
         }else{
+            respuestaBD.setCodigoRespuesta(Constantes.ERROR_CONEXION);
+        }
+        return respuestaBD;
+    }
+    
+    public static POJActividadEntrega obtenerActividadPorId(int idActividad) {
+        POJActividadEntrega respuestaBD = new POJActividadEntrega();
+        ModConexionBD abrirConexion = new ModConexionBD();
+        Connection conexion = abrirConexion.getConnection();
+
+        if (conexion != null) {
+            try {
+                String consulta = "SELECT nombre, descripcion, fechaCreacion, fechaLimiteEntrega, estado FROM actividad WHERE idActividad = ?";
+                PreparedStatement prepararSentencia = conexion.prepareStatement(consulta);
+                prepararSentencia.setInt(1, idActividad);
+                ResultSet resultado = prepararSentencia.executeQuery();
+                respuestaBD.setCodigoRespuesta(Constantes.OPERACION_EXITOSA);
+                if (resultado.next()) {
+                    respuestaBD.setNombre(resultado.getString("nombre"));
+                    respuestaBD.setDescripcion(resultado.getString("descripcion"));
+                    respuestaBD.setFechaCreacion(resultado.getString("fechaCreacion"));
+                    respuestaBD.setFechaLimiteEntrega(resultado.getString("fechaLimiteEntrega"));
+                    respuestaBD.setEstado(resultado.getString("estado"));
+                }
+            } catch (SQLException e) {
+                respuestaBD.setCodigoRespuesta(Constantes.ERROR_CONSULTA);
+            }
+        } else {
             respuestaBD.setCodigoRespuesta(Constantes.ERROR_CONEXION);
         }
         return respuestaBD;
