@@ -9,7 +9,7 @@
    <children>
       <ImageView fitHeight="379.0" fitWidth="662.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../utils/imagenes/Fondo-CU.png" />
+            <Image url="@../utils/imagenes/img4.jpg" />
          </image>
       </ImageView>
       <Button fx:id="btnAdminAnteproyecto" layoutX="381.0" layoutY="118.0" mnemonicParsing="false" onAction="#clicAdminAnteproyecto" text="Administrar Anteproyecto" />
